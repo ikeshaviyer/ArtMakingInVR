@@ -63,6 +63,17 @@ namespace VRArtMaking
                 Invoke(nameof(CheckForThrow), 0.1f);
             }
             
+            // If thrown but not homing, check for targets that might have come into range
+            if (hasBeenThrown && !isHoming && currentTarget == null)
+            {
+                Transform newTarget = FindNearestTarget();
+                if (newTarget != null)
+                {
+                    currentTarget = newTarget;
+                    Invoke(nameof(StartHoming), homingDelay);
+                }
+            }
+            
             wasKinematic = rb != null && rb.isKinematic;
         }
         
@@ -87,8 +98,21 @@ namespace VRArtMaking
                     Debug.Log($"Object thrown with velocity: {initialThrowVelocity.magnitude}");
                 }
                 
-                // Start homing after delay
-                Invoke(nameof(StartHoming), homingDelay);
+                // Check if there's a target immediately, if not, let it fly straight
+                currentTarget = FindNearestTarget();
+                
+                if (currentTarget != null)
+                {
+                    // Start homing after delay
+                    Invoke(nameof(StartHoming), homingDelay);
+                }
+                else
+                {
+                    if (showDebugInfo)
+                    {
+                        Debug.Log("No target found - object will fly straight");
+                    }
+                }
             }
         }
         
@@ -96,7 +120,11 @@ namespace VRArtMaking
         {
             if (hasBeenThrown && !isHoming)
             {
-                currentTarget = FindNearestTarget();
+                // Re-check for targets in case one appeared
+                if (currentTarget == null)
+                {
+                    currentTarget = FindNearestTarget();
+                }
                 
                 if (currentTarget != null)
                 {
@@ -120,7 +148,7 @@ namespace VRArtMaking
                 {
                     if (showDebugInfo)
                     {
-                        Debug.Log("No target found for homing");
+                        Debug.Log("No target found for homing - continuing straight flight");
                     }
                 }
             }

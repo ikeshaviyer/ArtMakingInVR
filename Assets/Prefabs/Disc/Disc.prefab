@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 781326843537639382}
   - component: {fileID: 1947080151130097841}
   - component: {fileID: 1241386846395602875}
+  - component: {fileID: 8680445251575855462}
   m_Layer: 0
   m_Name: Disc
   m_TagString: Untagged
@@ -108,7 +109,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.4741335, y: 0.19078255, z: 2.4741335}
+  m_Size: {x: 3, y: 0.54, z: 3}
   m_Center: {x: 0, y: 0.06524825, z: 0}
 --- !u!114 &1947080151130097841
 MonoBehaviour:
@@ -124,11 +125,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetTag: Target
   homingForce: 10
-  homingRange: 6
+  homingRange: 20
   homingDelay: 0.5
   maxHomingTime: 5
   throwVelocityThreshold: 2
-  homingTrailPrefab: {fileID: 5200829001894547608}
+  homingTrail: {fileID: 1488978479781610900}
   homingParticles: {fileID: 0}
   homingAudioSource: {fileID: 1241386846395602875}
   homingSound: {fileID: 0}
@@ -229,6 +230,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &8680445251575855462
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802277388062011418}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.474133, y: 0.1907825, z: 2.474133}
+  m_Center: {x: 0, y: 0.06524825, z: 0}
 --- !u!1 &1625113239234040569
 GameObject:
   m_ObjectHideFlags: 0
@@ -446,7 +468,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -467,7 +489,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 5
+  m_Time: 1
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
@@ -484,12 +506,21 @@ TrailRenderer:
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.48171997
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0, g: 1, b: 0.8953414, a: 1}
       key1: {r: 1, g: 1, b: 1, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
@@ -514,7 +545,7 @@ TrailRenderer:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_ColorSpace: -1
+      m_ColorSpace: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
@@ -526,7 +557,7 @@ TrailRenderer:
     generateLightingData: 0
   m_MinVertexDistance: 0.1
   m_MaskInteraction: 0
-  m_Autodestruct: 0
+  m_Autodestruct: 1
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
 --- !u!1 &7841142519789540913
