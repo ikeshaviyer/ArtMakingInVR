@@ -3,57 +3,32 @@ using System.Collections;
 
 namespace VRArtMaking
 {
-    /// <summary>
-    /// A script for objects that can be targeted by homing throwables.
-    /// Handles hit detection and provides visual/audio feedback.
-    /// </summary>
     public class Target : MonoBehaviour
     {
         [Header("Target Settings")]
         [SerializeField] private bool isActive = true;
-        [SerializeField] private int hitPoints = 1;
-        [SerializeField] private float respawnTime = 3f;
         
         [Header("Visual Effects")]
         [SerializeField] private GameObject hitEffectPrefab;
         [SerializeField] private ParticleSystem hitParticles;
-        [SerializeField] private Renderer targetRenderer;
-        [SerializeField] private Color normalColor = Color.white;
-        [SerializeField] private Color hitColor = Color.red;
-        [SerializeField] private float hitFlashDuration = 0.2f;
         
         [Header("Audio")]
         [SerializeField] private AudioSource audioSource;
         [SerializeField] private AudioClip hitSound;
         [SerializeField] private AudioClip destroySound;
         
-        [Header("Animation")]
-        [SerializeField] private bool useScaleAnimation = true;
-        [SerializeField] private float scaleAnimationDuration = 0.3f;
-        [SerializeField] private AnimationCurve scaleCurve = AnimationCurve.EaseInOut(0, 1, 1, 1.2f);
         
         [Header("Debug")]
         [SerializeField] private bool showDebugInfo = true;
         
-        private int currentHitPoints;
+        // Reference to spawner (set by TargetSpawner when spawning)
+        private TargetSpawner spawner;
+        
         private bool isDestroyed = false;
-        private Vector3 originalScale;
-        private Color originalColor;
-        private Collider targetCollider;
+        private bool wasHitByPlayer = false;
         
         private void Awake()
         {
-            currentHitPoints = hitPoints;
-            originalScale = transform.localScale;
-            targetCollider = GetComponent<Collider>();
-            
-            if (targetRenderer != null)
-            {
-                originalColor = targetRenderer.material.color;
-            }
-            
-            // Set initial state
-            SetActiveState(isActive);
         }
         
         private void Start()
@@ -65,11 +40,7 @@ namespace VRArtMaking
             }
         }
         
-        /// <summary>
-        /// Called when a homing throwable hits this target
-        /// </summary>
-        /// <param name="throwable">The homing throwable that hit this target</param>
-        public void OnHit(HomingThrowable throwable)
+        public void OnHit(MonoBehaviour throwable)
         {
             if (!isActive || isDestroyed)
                 return;
@@ -79,21 +50,12 @@ namespace VRArtMaking
                 Debug.Log($"Target {gameObject.name} hit by {throwable.name}");
             }
             
-            // Reduce hit points
-            currentHitPoints--;
+            // Mark as hit by player
+            wasHitByPlayer = true;
             
-            // Play hit effects
+            // Play hit effects and destroy immediately
             PlayHitEffects();
-            
-            // Check if target should be destroyed
-            if (currentHitPoints <= 0)
-            {
-                StartCoroutine(DestroyTarget());
-            }
-            else
-            {
-                StartCoroutine(FlashHit());
-            }
+            Destroy();
         }
         
         private void PlayHitEffects()
@@ -117,21 +79,11 @@ namespace VRArtMaking
             }
         }
         
-        private IEnumerator FlashHit()
+        public void Destroy()
         {
-            if (targetRenderer != null)
-            {
-                // Flash to hit color
-                targetRenderer.material.color = hitColor;
-                yield return new WaitForSeconds(hitFlashDuration);
+            if (isDestroyed)
+                return;
                 
-                // Return to normal color
-                targetRenderer.material.color = originalColor;
-            }
-        }
-        
-        private IEnumerator DestroyTarget()
-        {
             isDestroyed = true;
             
             if (showDebugInfo)
@@ -145,108 +97,27 @@ namespace VRArtMaking
                 audioSource.PlayOneShot(destroySound);
             }
             
-            // Disable collider
-            if (targetCollider != null)
+            // Add score to game manager only if hit by player
+            if (DiscGameManager.Instance != null && wasHitByPlayer)
             {
-                targetCollider.enabled = false;
+                DiscGameManager.Instance.AddScore(1);
             }
             
-            // Play destroy animation
-            if (useScaleAnimation)
+            // Play hit effects
+            PlayHitEffects();
+            
+            // Notify spawner if this target was spawned
+            if (spawner != null)
             {
-                yield return StartCoroutine(ScaleAnimation(originalScale, Vector3.zero, scaleAnimationDuration));
+                spawner.OnTargetDestroyed();
             }
             
-            // Hide the target
-            SetActiveState(false);
-            
-            // Respawn after delay if respawn time > 0
-            if (respawnTime > 0)
-            {
-                yield return new WaitForSeconds(respawnTime);
-                Respawn();
-            }
+            // Destroy the GameObject
+            Destroy(gameObject);
         }
         
-        private IEnumerator ScaleAnimation(Vector3 fromScale, Vector3 toScale, float duration)
-        {
-            float elapsedTime = 0f;
-            
-            while (elapsedTime < duration)
-            {
-                float t = elapsedTime / duration;
-                float curveValue = scaleCurve.Evaluate(t);
-                transform.localScale = Vector3.Lerp(fromScale, toScale, curveValue);
-                
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
-            
-            transform.localScale = toScale;
-        }
-        
-        public void Respawn()
-        {
-            if (showDebugInfo)
-            {
-                Debug.Log($"Target {gameObject.name} respawned!");
-            }
-            
-            // Reset state
-            currentHitPoints = hitPoints;
-            isDestroyed = false;
-            transform.localScale = originalScale;
-            
-            // Re-enable collider
-            if (targetCollider != null)
-            {
-                targetCollider.enabled = true;
-            }
-            
-            // Reset color
-            if (targetRenderer != null)
-            {
-                targetRenderer.material.color = originalColor;
-            }
-            
-            // Show the target
-            SetActiveState(true);
-        }
-        
-        private void SetActiveState(bool active)
-        {
-            isActive = active;
-            
-            // Enable/disable renderer
-            if (targetRenderer != null)
-            {
-                targetRenderer.enabled = active;
-            }
-            
-            // Enable/disable collider
-            if (targetCollider != null)
-            {
-                targetCollider.enabled = active;
-            }
-        }
         
         // Public methods for external control
-        public void SetActive(bool active)
-        {
-            SetActiveState(active);
-        }
-        
-        public void SetHitPoints(int points)
-        {
-            hitPoints = points;
-            currentHitPoints = points;
-        }
-        
-        public int GetCurrentHitPoints()
-        {
-            return currentHitPoints;
-        }
-        
         public bool IsDestroyed()
         {
             return isDestroyed;
@@ -257,22 +128,9 @@ namespace VRArtMaking
             return isActive;
         }
         
-        private void OnDrawGizmosSelected()
+        public void SetSpawner(TargetSpawner targetSpawner)
         {
-            if (showDebugInfo)
-            {
-                // Draw target indicator
-                Gizmos.color = isActive ? Color.green : Color.gray;
-                Gizmos.DrawWireSphere(transform.position, 0.5f);
-                
-                // Draw hit points indicator
-                Gizmos.color = Color.red;
-                for (int i = 0; i < currentHitPoints; i++)
-                {
-                    Vector3 offset = Vector3.up * (i * 0.2f + 0.5f);
-                    Gizmos.DrawWireCube(transform.position + offset, Vector3.one * 0.1f);
-                }
-            }
+            spawner = targetSpawner;
         }
     }
 }

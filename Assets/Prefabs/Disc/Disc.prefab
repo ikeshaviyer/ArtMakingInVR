@@ -11,10 +11,12 @@ GameObject:
   - component: {fileID: 956444660404317883}
   - component: {fileID: 50597063294389287}
   - component: {fileID: 3392398318737078802}
-  - component: {fileID: 781326843537639382}
-  - component: {fileID: 1947080151130097841}
   - component: {fileID: 1241386846395602875}
   - component: {fileID: 8680445251575855462}
+  - component: {fileID: 2618767499378120150}
+  - component: {fileID: 8074819457403813158}
+  - component: {fileID: 4530634528289752566}
+  - component: {fileID: 7888960551403485462}
   m_Layer: 0
   m_Name: Disc
   m_TagString: Untagged
@@ -63,7 +65,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -90,50 +92,6 @@ MonoBehaviour:
   _rigidbody: {fileID: 50597063294389287}
   _kinematicWhileSelected: 1
   _throwWhenUnselected: 1
---- !u!65 &781326843537639382
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 802277388062011418}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 3, y: 0.54, z: 3}
-  m_Center: {x: 0, y: 0.06524825, z: 0}
---- !u!114 &1947080151130097841
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 802277388062011418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e468f9d95c6499043b3b77a17634fe44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetTag: Target
-  homingForce: 10
-  homingRange: 20
-  homingDelay: 0.5
-  maxHomingTime: 5
-  throwVelocityThreshold: 2
-  homingTrail: {fileID: 1488978479781610900}
-  homingParticles: {fileID: 0}
-  homingAudioSource: {fileID: 1241386846395602875}
-  homingSound: {fileID: 0}
-  showDebugInfo: 1
 --- !u!82 &1241386846395602875
 AudioSource:
   m_ObjectHideFlags: 0
@@ -251,6 +209,69 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.474133, y: 0.1907825, z: 2.474133}
   m_Center: {x: 0, y: 0.06524825, z: 0}
+--- !u!114 &2618767499378120150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802277388062011418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 879b56ff08ad1994b9b47dc7f277a244, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flyingTrail: {fileID: 1488978479781610900}
+  flyingAudioSource: {fileID: 0}
+  flyingSound: {fileID: 0}
+  showDebugInfo: 1
+--- !u!114 &8074819457403813158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802277388062011418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22c46093461a98d43be659acb45f3755, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTag: Target
+  homingForce: 30
+  homingRange: 20
+  homingDelay: 0
+  maxHomingTime: 5
+  showDebugInfo: 1
+--- !u!114 &4530634528289752566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802277388062011418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f91ee0da4ff293048bd3d342ecfcc6a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  returnSpeed: 40
+  maxFlyingTime: 5
+  showDebugInfo: 1
+--- !u!114 &7888960551403485462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802277388062011418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b409a4507bda67d41acf5071b1ed69f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  throwVelocityThreshold: 2
+  showDebugInfo: 1
 --- !u!1 &1625113239234040569
 GameObject:
   m_ObjectHideFlags: 0
