@@ -40,10 +40,11 @@ namespace VRArtMaking
                 returnStartPosition = transform.position;
                 returnStartTime = Time.time;
                 
-                // Make sure rigidbody is not kinematic for physics forces
-                if (rb != null && rb.isKinematic)
+                // Stop any homing behavior
+                DiscHomingHandler homingHandler = GetComponent<DiscHomingHandler>();
+                if (homingHandler != null)
                 {
-                    rb.isKinematic = false;
+                    homingHandler.StopHoming();
                 }
                 
                 if (showDebugInfo)
@@ -58,24 +59,59 @@ namespace VRArtMaking
             isReturning = false;
         }
         
+        public void ResetReturnTimer()
+        {
+            flyingStartTime = 0f;
+            if (showDebugInfo)
+            {
+                Debug.Log("Return timer manually reset");
+            }
+        }
+        
         public bool ShouldReturn(bool isFlying, bool isGrabbed)
         {
-            if (isFlying && !isReturning && !isGrabbed)
+            // Don't return if disc is grabbed (at spawn position)
+            if (isGrabbed)
+            {
+                flyingStartTime = 0f; // Reset flying time when grabbed
+                return false;
+            }
+            
+            // Only start return timer when disc is actually flying (thrown, not at spawn)
+            if (isFlying && !isReturning)
             {
                 // Start tracking flying time when disc starts flying
                 if (flyingStartTime == 0f)
                 {
                     flyingStartTime = Time.time;
+                    if (showDebugInfo)
+                    {
+                        Debug.Log("Started return timer - disc is flying");
+                    }
                 }
                 
                 // Check if disc has been flying too long - return no matter what
                 float flyingTime = Time.time - flyingStartTime;
-                return flyingTime > maxFlyingTime;
+                if (flyingTime > maxFlyingTime)
+                {
+                    if (showDebugInfo)
+                    {
+                        Debug.Log($"Return timer expired after {flyingTime} seconds");
+                    }
+                    return true;
+                }
             }
             else
             {
-                // Reset flying time when not flying
-                flyingStartTime = 0f;
+                // Reset flying time when not flying (but only if we were tracking)
+                if (flyingStartTime > 0f)
+                {
+                    flyingStartTime = 0f;
+                    if (showDebugInfo)
+                    {
+                        Debug.Log("Reset return timer - disc stopped flying");
+                    }
+                }
             }
             return false;
         }
@@ -84,8 +120,16 @@ namespace VRArtMaking
         {
             if (isReturning)
             {
+                // Check if we should wait a bit before applying return forces
+                // This prevents conflicts with Meta XR's throw system
+                float timeSinceReturnStart = Time.time - returnStartTime;
+                if (timeSinceReturnStart < 0.5f) // Wait 0.5 seconds before applying return forces
+                {
+                    return;
+                }
+                
                 // Calculate Tron-style curved return path
-                float returnProgress = (Time.time - returnStartTime) * 0.5f; // Speed of return
+                float returnProgress = (timeSinceReturnStart - 0.5f) * 0.5f; // Speed of return
                 
                 if (returnProgress < 1f)
                 {
@@ -127,10 +171,11 @@ namespace VRArtMaking
             
             if (distanceToSpawn > 0.1f)
             {
-                // Make rigidbody kinematic for smooth lerping
-                if (rb != null && !rb.isKinematic)
+                // Stop all movement for smooth lerping
+                if (rb != null)
                 {
-                    rb.isKinematic = true;
+                    rb.velocity = Vector3.zero;
+                    rb.angularVelocity = Vector3.zero;
                 }
                 
                 // Smoothly lerp to spawn position
@@ -170,16 +215,21 @@ namespace VRArtMaking
             // Stop returning
             isReturning = false;
             
-            // Ensure rigidbody is kinematic
+            // Reset return timer completely
+            flyingStartTime = 0f;
+            
+            // Stop all movement
             if (rb != null)
             {
                 rb.velocity = Vector3.zero;
                 rb.angularVelocity = Vector3.zero;
-                rb.isKinematic = true;
             }
             
-            // Reset position to spawn location
+            // Reset position to exact spawn location
             transform.position = spawnPosition;
+            transform.rotation = Quaternion.identity;
+            
+            // Meta XR SDK will handle kinematic state automatically
             
             // Notify that return is complete
             DiscStateManager discStateManager = GetComponent<DiscStateManager>();

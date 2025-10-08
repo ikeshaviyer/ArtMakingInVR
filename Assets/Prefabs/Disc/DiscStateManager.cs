@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using Oculus.Interaction;
 
 namespace VRArtMaking
 {
@@ -14,6 +15,7 @@ namespace VRArtMaking
         [SerializeField] private bool showDebugInfo = true;
         
         private Rigidbody rb;
+        private Grabbable grabbable;
         private bool hasBeenThrown = false;
         private bool isGrabbed = true; // Start in grabbed state
         private bool hasBeenGrabbedBefore = false; // Track if disc has been grabbed at least once
@@ -23,12 +25,18 @@ namespace VRArtMaking
         private DiscHomingHandler homingHandler;
         private DiscReturnHandler returnHandler;
         
+        // State tracking
+        public enum DiscState { Grabbed, Flying, Homing, Returning }
+        private DiscState currentState = DiscState.Grabbed;
+        
         public bool IsGrabbed => isGrabbed;
         public bool HasBeenThrown => hasBeenThrown;
+        public DiscState CurrentState => currentState;
         
         private void Awake()
         {
             rb = GetComponent<Rigidbody>();
+            grabbable = GetComponent<Grabbable>();
             homingHandler = GetComponent<DiscHomingHandler>();
             returnHandler = GetComponent<DiscReturnHandler>();
             
@@ -38,11 +46,8 @@ namespace VRArtMaking
             // Start at spawn position
             transform.position = spawnPosition;
             
-            // Make sure it starts kinematic (grabbed state)
-            if (rb != null)
-            {
-                rb.isKinematic = true;
-            }
+            // Let Meta XR Grabbable handle kinematic state
+            // It will automatically set rb.isKinematic = true when grabbed
         }
         
         private void Start()
@@ -52,15 +57,62 @@ namespace VRArtMaking
             {
                 returnHandler.Initialize(spawnPosition);
             }
+            
+            // Subscribe to Meta XR Grabbable events
+            if (grabbable != null)
+            {
+                grabbable.WhenPointerEventRaised += OnGrabbableEvent;
+            }
+        }
+        
+        private void OnDestroy()
+        {
+            // Unsubscribe from events
+            if (grabbable != null)
+            {
+                grabbable.WhenPointerEventRaised -= OnGrabbableEvent;
+            }
+        }
+        
+        private void OnGrabbableEvent(PointerEvent evt)
+        {
+            switch (evt.Type)
+            {
+                case PointerEventType.Select:
+                    // Disc is being grabbed
+                    isGrabbed = true;
+                    currentState = DiscState.Grabbed;
+                    
+                    if (showDebugInfo)
+                    {
+                        Debug.Log("Disc state: Grabbed");
+                    }
+                    break;
+                case PointerEventType.Unselect:
+                    // Disc is being released - let Meta XR handle the throw
+                    isGrabbed = false;
+                    currentState = DiscState.Flying;
+                    if (showDebugInfo)
+                    {
+                        Debug.Log("Disc state: Flying (thrown)");
+                    }
+                    break;
+                case PointerEventType.Cancel:
+                    // Grab was cancelled
+                    isGrabbed = false;
+                    currentState = DiscState.Flying;
+                    if (showDebugInfo)
+                    {
+                        Debug.Log("Disc state: Flying (cancelled)");
+                    }
+                    break;
+            }
         }
         
         private void Update()
         {
-            // Update grabbed state based on kinematic status
-            bool currentlyKinematic = rb != null && rb.isKinematic;
-            
             // Check if disc was just grabbed for the first time
-            if (!hasBeenGrabbedBefore && currentlyKinematic)
+            if (!hasBeenGrabbedBefore && isGrabbed)
             {
                 hasBeenGrabbedBefore = true;
                 OnDiscFirstGrabbed?.Invoke();
@@ -70,8 +122,6 @@ namespace VRArtMaking
                     Debug.Log("Disc grabbed for the first time - starting game!");
                 }
             }
-            
-            isGrabbed = currentlyKinematic;
             
             // Check for throwing
             CheckForThrow();
@@ -122,18 +172,28 @@ namespace VRArtMaking
         public void OnTargetHit()
         {
             // Target was hit, start returning
+            currentState = DiscState.Returning;
             if (returnHandler != null)
             {
                 returnHandler.StartReturn();
+            }
+            if (showDebugInfo)
+            {
+                Debug.Log("Disc state: Returning (target hit)");
             }
         }
         
         public void OnHomingFailed()
         {
             // Homing failed, start returning
+            currentState = DiscState.Returning;
             if (returnHandler != null)
             {
                 returnHandler.StartReturn();
+            }
+            if (showDebugInfo)
+            {
+                Debug.Log("Disc state: Returning (homing failed)");
             }
         }
         
@@ -141,10 +201,32 @@ namespace VRArtMaking
         {
             // Reset state for next throw
             hasBeenThrown = false;
+            currentState = DiscState.Grabbed;
+            
+            // Ensure the disc is properly positioned and stopped
+            if (rb != null)
+            {
+                // The return handler already set it to kinematic and reset position/rotation
+                // We just need to make sure it's ready for grabbing
+                rb.velocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+            }
             
             if (showDebugInfo)
             {
-                Debug.Log("Disc ready for next throw");
+                Debug.Log("Disc state: Grabbed (ready for next throw)");
+            }
+        }
+        
+        public void SetHomingState()
+        {
+            if (currentState == DiscState.Flying)
+            {
+                currentState = DiscState.Homing;
+                if (showDebugInfo)
+                {
+                    Debug.Log("Disc state: Homing");
+                }
             }
         }
         

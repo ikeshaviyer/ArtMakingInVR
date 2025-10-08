@@ -22,16 +22,18 @@ namespace VRArtMaking
         {
             rb = GetComponent<Rigidbody>();
             
-            // Start with effects disabled
-            if (flyingTrail != null)
-            {
-                flyingTrail.enabled = false;
-            }
+            // Don't modify the trail renderer - let it stay as configured in inspector
+            // We'll use Clear() to start/stop the trail effect
         }
         
         private void Update()
         {
-            bool isMoving = rb != null && !rb.isKinematic;
+            // Use the state system instead of kinematic check
+            DiscStateManager stateManager = GetComponent<DiscStateManager>();
+            bool isMoving = stateManager != null && 
+                           (stateManager.CurrentState == DiscStateManager.DiscState.Flying ||
+                            stateManager.CurrentState == DiscStateManager.DiscState.Homing ||
+                            stateManager.CurrentState == DiscStateManager.DiscState.Returning);
             
             // Check if movement state changed
             if (isMoving != wasFlying)
@@ -50,10 +52,10 @@ namespace VRArtMaking
         
         private void StartFlyingEffects()
         {
-            // Start trail effect
+            // Start trail effect - just clear it to start fresh
             if (flyingTrail != null)
             {
-                flyingTrail.enabled = true;
+                flyingTrail.Clear(); // This starts a fresh trail without disabling the component
             }
             
             // Play flying sound
@@ -67,16 +69,16 @@ namespace VRArtMaking
             
             if (showDebugInfo)
             {
-                Debug.Log("Started flying effects - disc is moving (not kinematic)");
+                Debug.Log("Started flying effects - disc is moving");
             }
         }
         
         private void StopFlyingEffects()
         {
-            // Stop trail effect
+            // Stop trail effect - just clear it, don't disable the component
             if (flyingTrail != null)
             {
-                flyingTrail.enabled = false;
+                flyingTrail.Clear(); // This stops the trail without disabling the component
             }
             
             // Stop flying sound
@@ -88,27 +90,8 @@ namespace VRArtMaking
             
             if (showDebugInfo)
             {
-                Debug.Log("Stopped flying effects - disc is now kinematic");
+                Debug.Log("Stopped flying effects - disc stopped moving");
             }
-        }
-        
-        public void SetTrailRenderer(TrailRenderer trail)
-        {
-            flyingTrail = trail;
-            if (trail != null && !wasFlying)
-            {
-                trail.enabled = false;
-            }
-        }
-        
-        public void SetFlyingSound(AudioClip sound)
-        {
-            flyingSound = sound;
-        }
-        
-        public void SetAudioSource(AudioSource source)
-        {
-            flyingAudioSource = source;
         }
     }
 }

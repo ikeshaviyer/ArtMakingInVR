@@ -56,9 +56,14 @@ namespace VRArtMaking
         
         private void FixedUpdate()
         {
-            // Check if we should be homing (not kinematic and not returning)
-            bool shouldHoming = rb != null && !rb.isKinematic;
+            // Check if we should be homing (flying state and not returning)
+            DiscStateManager stateManager = GetComponent<DiscStateManager>();
             DiscReturnHandler returnHandler = GetComponent<DiscReturnHandler>();
+            
+            bool shouldHoming = stateManager != null && 
+                               (stateManager.CurrentState == DiscStateManager.DiscState.Flying || 
+                                stateManager.CurrentState == DiscStateManager.DiscState.Homing);
+            
             if (returnHandler != null && returnHandler.IsReturning)
             {
                 shouldHoming = false;
@@ -74,6 +79,12 @@ namespace VRArtMaking
                     {
                         isHoming = true;
                         throwTime = Time.time;
+                        
+                        // Update state to homing
+                        if (stateManager != null)
+                        {
+                            stateManager.SetHomingState();
+                        }
                         
                         if (showDebugInfo)
                         {
@@ -99,18 +110,23 @@ namespace VRArtMaking
                         return;
                     }
                     
-                    // Calculate homing force
-                    Vector3 directionToTarget = (currentTarget.position - transform.position).normalized;
-                    Vector3 homingForceVector = directionToTarget * homingForce;
-                    
-                    // Apply homing force
-                    rb.AddForce(homingForceVector, ForceMode.Force);
-                    
-                    // Rotate object to face target
-                    if (rb.velocity.magnitude > 0.1f)
+                    // Add a delay before applying homing forces to let Meta XR throw system work
+                    float timeSinceThrow = Time.time - throwTime;
+                    if (timeSinceThrow > homingDelay)
                     {
-                        Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
-                        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 5f);
+                        // Calculate homing force
+                        Vector3 directionToTarget = (currentTarget.position - transform.position).normalized;
+                        Vector3 homingForceVector = directionToTarget * homingForce;
+                        
+                        // Apply homing force
+                        rb.AddForce(homingForceVector, ForceMode.Force);
+                        
+                        // Rotate object to face target
+                        if (rb.velocity.magnitude > 0.1f)
+                        {
+                            Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+                            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 5f);
+                        }
                     }
                     
                     // Check if we're close enough to the target
