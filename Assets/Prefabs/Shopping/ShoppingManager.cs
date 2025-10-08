@@ -86,7 +86,7 @@ namespace VRArtMaking
             }
         }
         
-        public void SubtractHealth(float amount)
+        public void SubtractLifeExpectancy(float amount)
         {
             currentHealth -= amount;
             
@@ -97,7 +97,7 @@ namespace VRArtMaking
                 
                 if (showDebugInfo)
                 {
-                    Debug.LogWarning("Player health depleted!");
+                    Debug.LogWarning("Player life expectancy depleted!");
                 }
             }
             
@@ -105,11 +105,11 @@ namespace VRArtMaking
             
             if (showDebugInfo)
             {
-                Debug.Log($"Health subtracted: {amount}. Current: {currentHealth}");
+                Debug.Log($"Life expectancy subtracted: {amount}. Current: {currentHealth}");
             }
         }
         
-        public void AddHealth(float amount)
+        public void AddLifeExpectancy(float amount)
         {
             currentHealth += amount;
             
@@ -123,7 +123,7 @@ namespace VRArtMaking
             
             if (showDebugInfo)
             {
-                Debug.Log($"Health added: {amount}. Current: {currentHealth}");
+                Debug.Log($"Life expectancy added: {amount}. Current: {currentHealth}");
             }
         }
         

@@ -53,17 +53,17 @@ namespace VRArtMaking
         {
             groceriesInCart.Add(grocery);
             
-            // Subtract money and health, add hunger when item is added to cart
+            // Subtract money, add life expectancy and hunger when item is added to cart
             if (shoppingManager != null)
             {
                 shoppingManager.SubtractMoney(grocery.Price);
-                shoppingManager.SubtractHealth(grocery.BadHealth);
+                shoppingManager.AddLifeExpectancy(grocery.LifeExpectancy);
                 shoppingManager.AddHunger(grocery.HungerValue);
             }
             
             if (showDebugInfo)
             {
-                Debug.Log($"Added {grocery.ItemName} to cart. Subtracted Price: ${grocery.Price}, BadHealth: {grocery.BadHealth}, Added Hunger: {grocery.HungerValue}");
+                Debug.Log($"Added {grocery.ItemName} to cart. Subtracted Price: ${grocery.Price}, Added LifeExpectancy: {grocery.LifeExpectancy}, Added Hunger: {grocery.HungerValue}");
             }
         }
         
@@ -71,17 +71,17 @@ namespace VRArtMaking
         {
             groceriesInCart.Remove(grocery);
             
-            // Add back money and health, subtract hunger when item is removed from cart
+            // Add back money, subtract life expectancy and hunger when item is removed from cart
             if (shoppingManager != null)
             {
                 shoppingManager.AddMoney(grocery.Price);
-                shoppingManager.AddHealth(grocery.BadHealth);
+                shoppingManager.SubtractLifeExpectancy(grocery.LifeExpectancy);
                 shoppingManager.SubtractHunger(grocery.HungerValue);
             }
             
             if (showDebugInfo)
             {
-                Debug.Log($"Removed {grocery.ItemName} from cart. Added back Price: ${grocery.Price}, BadHealth: {grocery.BadHealth}, Subtracted Hunger: {grocery.HungerValue}");
+                Debug.Log($"Removed {grocery.ItemName} from cart. Added back Price: ${grocery.Price}, Subtracted LifeExpectancy: {grocery.LifeExpectancy}, Subtracted Hunger: {grocery.HungerValue}");
             }
         }
         
@@ -113,14 +113,14 @@ namespace VRArtMaking
         }
         
         /// <summary>
-        /// Get total badHealth of all items in cart
+        /// Get total life expectancy of all items in cart
         /// </summary>
-        public float GetTotalBadHealth()
+        public float GetTotalLifeExpectancy()
         {
             float total = 0f;
             foreach (Grocery grocery in groceriesInCart)
             {
-                total += grocery.BadHealth;
+                total += grocery.LifeExpectancy;
             }
             return total;
         }
