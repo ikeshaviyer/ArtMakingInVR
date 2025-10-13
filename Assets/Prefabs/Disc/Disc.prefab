@@ -226,7 +226,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trailObject: {fileID: 1441970912514500144}
   flyingAudioSource: {fileID: 4032168641035989637}
-  flyingSound: {fileID: 0}
+  flyingSound: {fileID: 8300000, guid: 8f59a49138ef7e149a2d8000b127686f, type: 3}
   showDebugInfo: 1
 --- !u!114 &8074819457403813158
 MonoBehaviour:
