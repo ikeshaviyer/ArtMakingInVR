@@ -4,7 +4,16 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/AR Elevator.unity
+    guid: d22f592f8bb6cd843be2fd2e9b98516f
+  - enabled: 1
+    path: Assets/Scenes/Disc Throwing.unity
+    guid: a6fd9202ab39ecd418775492cf27887e
+  - enabled: 1
+    path: Assets/Scenes/Shopping.unity
+    guid: d4d7ba89eda914e49a5e2a2e0a161444
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 99c8b64c88464b44994893b283d9e459, type: 2}
     com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: fb334d9b57fe5184e8361808ad659b91, type: 2}
