@@ -476,7 +476,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineColor: {r: 0, g: 0, b: 0, a: 1}
-  outlineWidth: 20
+  outlineWidth: 10
 --- !u!1 &1441970912514500144
 GameObject:
   m_ObjectHideFlags: 0
@@ -901,7 +901,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 17fba9e573a4e1c428bd733f3e6cf1be, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.843
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 17fba9e573a4e1c428bd733f3e6cf1be, type: 3}
       propertyPath: m_LocalRotation.w
