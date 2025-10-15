@@ -7,6 +7,7 @@ namespace VRArtMaking
     {
         [Header("Throw Settings")]
         [SerializeField] private float throwVelocityThreshold = 2f;
+        [SerializeField] private float launchForce = 10f;
         
         public static event Action OnDiscFirstGrabbed;
         
@@ -83,9 +84,15 @@ namespace VRArtMaking
         
         public void OnReleased()
         {
-            // Disc is being released - let Meta XR handle the throw
+            // Disc is being released - launch it forward
             isGrabbed = false;
             currentState = DiscState.Flying;
+            
+            if (rb != null)
+            {
+                // Launch the disc straight forward in the direction it's facing
+                rb.AddForce(transform.forward * launchForce, ForceMode.Impulse);
+            }
             
             if (showDebugInfo)
             {
@@ -95,9 +102,15 @@ namespace VRArtMaking
         
         public void OnGrabCancelled()
         {
-            // Grab was cancelled
+            // Grab was cancelled - launch it forward
             isGrabbed = false;
             currentState = DiscState.Flying;
+            
+            if (rb != null)
+            {
+                // Launch the disc straight forward in the direction it's facing
+                rb.AddForce(transform.forward * launchForce, ForceMode.Impulse);
+            }
             
             if (showDebugInfo)
             {

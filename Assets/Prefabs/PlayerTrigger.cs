@@ -7,6 +7,7 @@ namespace VRArtMaking
     {
         [Header("Player Detection")]
         [SerializeField] private string playerTag = "Player";
+        [SerializeField] private Collider triggerCollider;
         
         [Header("Events")]
         [SerializeField] private UnityEvent onPlayerEnter;
@@ -18,6 +19,19 @@ namespace VRArtMaking
         private bool playerInside = false;
         
         public bool PlayerInside => playerInside;
+        
+        private void Start()
+        {
+            // If a specific collider is assigned, ensure it's set up as a trigger
+            if (triggerCollider != null)
+            {
+                if (!triggerCollider.isTrigger)
+                {
+                    Debug.LogWarning($"Assigned collider on {gameObject.name} is not set as a trigger. Setting it now.");
+                    triggerCollider.isTrigger = true;
+                }
+            }
+        }
         
         private void OnTriggerEnter(Collider other)
         {

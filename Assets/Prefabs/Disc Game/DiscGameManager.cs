@@ -1,5 +1,6 @@
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Events;
+using TMPro;
 using System.Collections;
 
 namespace VRArtMaking
@@ -12,9 +13,13 @@ namespace VRArtMaking
         
         [Header("References")]
         [SerializeField] private TargetSpawner targetSpawner;
-        [SerializeField] private Text timerText;
-        [SerializeField] private Text scoreText;
-        [SerializeField] private Text gameStatusText;
+        [SerializeField] private TextMeshProUGUI timerText;
+        [SerializeField] private TextMeshProUGUI scoreText;
+        [SerializeField] private TextMeshProUGUI gameStatusText;
+        
+        [Header("Events")]
+        [SerializeField] private UnityEvent onGameStart;
+        [SerializeField] private UnityEvent onGameEnd;
         
         [Header("Debug")]
         [SerializeField] private bool showDebugInfo = true;
@@ -96,6 +101,8 @@ namespace VRArtMaking
                 gameStatusText.text = "Game Active!";
             }
             
+            onGameStart?.Invoke();
+            
             if (showDebugInfo)
             {
                 Debug.Log("Game started!");
@@ -120,6 +127,7 @@ namespace VRArtMaking
                 gameStatusText.text = "Game Over!";
             }
             
+            onGameEnd?.Invoke();
             
             if (showDebugInfo)
             {

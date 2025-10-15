@@ -6,7 +6,7 @@ namespace VRArtMaking
     {
         [Header("Homing Settings")]
         [SerializeField] private string targetTag = "Target";
-        [SerializeField] private float homingForce = 10f;
+        [SerializeField] private float homingSpeed = 10f;
         [SerializeField] private float homingRange = 20f;
         [SerializeField] private float homingDelay = 0.5f;
         [SerializeField] private float maxHomingTime = 5f;
@@ -110,23 +110,18 @@ namespace VRArtMaking
                         return;
                     }
                     
-                    // Add a delay before applying homing forces to let Meta XR throw system work
+                    // Add a delay before applying homing to let the throw happen
                     float timeSinceThrow = Time.time - throwTime;
                     if (timeSinceThrow > homingDelay)
                     {
-                        // Calculate homing force
+                        // Move towards target
                         Vector3 directionToTarget = (currentTarget.position - transform.position).normalized;
-                        Vector3 homingForceVector = directionToTarget * homingForce;
-                        
-                        // Apply homing force
-                        rb.AddForce(homingForceVector, ForceMode.Force);
+                        Vector3 newPosition = Vector3.MoveTowards(transform.position, currentTarget.position, homingSpeed * Time.fixedDeltaTime);
+                        rb.MovePosition(newPosition);
                         
                         // Rotate object to face target
-                        if (rb.velocity.magnitude > 0.1f)
-                        {
-                            Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
-                            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 5f);
-                        }
+                        Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+                        rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 5f));
                     }
                     
                     // Check if we're close enough to the target
@@ -176,9 +171,9 @@ namespace VRArtMaking
             currentTarget = target;
         }
         
-        public void SetHomingForce(float force)
+        public void SetHomingSpeed(float speed)
         {
-            homingForce = force;
+            homingSpeed = speed;
         }
         
         public void SetHomingRange(float range)
