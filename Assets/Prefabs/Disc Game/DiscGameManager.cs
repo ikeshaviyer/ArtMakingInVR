@@ -50,7 +50,7 @@ namespace VRArtMaking
             InitializeGame();
             
             // Subscribe to disc grab event
-            DiscStateManager.OnDiscFirstGrabbed += StartGame;
+            DiscController.OnDiscFirstGrabbed += StartGame;
         }
         
         private void Update()
@@ -248,7 +248,7 @@ namespace VRArtMaking
             }
             
             // Unsubscribe from disc grab event
-            DiscStateManager.OnDiscFirstGrabbed -= StartGame;
+            DiscController.OnDiscFirstGrabbed -= StartGame;
         }
     }
 }

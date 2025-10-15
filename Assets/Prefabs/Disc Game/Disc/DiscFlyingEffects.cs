@@ -14,55 +14,21 @@ namespace VRArtMaking
         [Header("Debug")]
         [SerializeField] private bool showDebugInfo = true;
         
-        private Rigidbody rb;
-        private bool wasFlying = false;
         private bool isPlayingFlyingSound = false;
         
         private void Awake()
         {
-            rb = GetComponent<Rigidbody>();
-            
             // Initialize trail object - start disabled
-            if (trailObject != null)
-            {
-                trailObject.SetActive(false);
-            }
+            trailObject.SetActive(false);
         }
         
-        private void Update()
-        {
-            // Use the state system instead of kinematic check
-            DiscStateManager stateManager = GetComponent<DiscStateManager>();
-            bool isMoving = stateManager != null && 
-                           (stateManager.CurrentState == DiscStateManager.DiscState.Flying ||
-                            stateManager.CurrentState == DiscStateManager.DiscState.Homing ||
-                            stateManager.CurrentState == DiscStateManager.DiscState.Returning);
-            
-            // Check if movement state changed
-            if (isMoving != wasFlying)
-            {
-                if (isMoving)
-                {
-                    StartFlyingEffects();
-                }
-                else
-                {
-                    StopFlyingEffects();
-                }
-                wasFlying = isMoving;
-            }
-        }
-        
-        public void StartFlyingEffects()
+        public void StartFlyingFX()
         {
             // Enable trail object
-            if (trailObject != null)
-            {
-                trailObject.SetActive(true);
-            }
+            trailObject.SetActive(true);
             
             // Play flying sound
-            if (flyingAudioSource != null && flyingSound != null && !isPlayingFlyingSound)
+            if (!isPlayingFlyingSound)
             {
                 flyingAudioSource.clip = flyingSound;
                 flyingAudioSource.loop = true;
@@ -72,17 +38,17 @@ namespace VRArtMaking
             
             if (showDebugInfo)
             {
-                Debug.Log("Started flying effects - disc is moving");
+                Debug.Log("Started flying FX");
             }
         }
         
-        public void StopFlyingEffects()
+        public void StopFlyingFX()
         {
-            // Keep trail object active - never disable it
-            // Trail will remain visible once started
+            // Disable trail object
+            trailObject.SetActive(false);
             
             // Stop flying sound
-            if (flyingAudioSource != null && isPlayingFlyingSound)
+            if (isPlayingFlyingSound)
             {
                 flyingAudioSource.Stop();
                 isPlayingFlyingSound = false;
@@ -90,7 +56,7 @@ namespace VRArtMaking
             
             if (showDebugInfo)
             {
-                Debug.Log("Stopped flying effects - disc stopped moving (trail remains active)");
+                Debug.Log("Stopped flying FX");
             }
         }
     }

@@ -1,5 +1,141 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &621067971724758163
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8687763368429784362}
+  - component: {fileID: 7533700477819350855}
+  m_Layer: 0
+  m_Name: Line
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8687763368429784362
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 621067971724758163}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 956444660404317883}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!120 &7533700477819350855
+LineRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 621067971724758163}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 0
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Positions:
+  - {x: 0, y: 0, z: 1.65681}
+  - {x: 0, y: 0, z: 9.110143}
+  m_Parameters:
+    serializedVersion: 3
+    widthMultiplier: 1
+    widthCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0.0033988953
+        value: 0.028837204
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    colorGradient:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 0.27058825}
+      key1: {r: 1, g: 1, b: 1, a: 0.27058825}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_ColorSpace: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    numCornerVertices: 0
+    numCapVertices: 0
+    alignment: 0
+    textureMode: 0
+    textureScale: {x: 1, y: 1}
+    shadowBias: 0.5
+    generateLightingData: 0
+  m_MaskInteraction: 0
+  m_UseWorldSpace: 0
+  m_Loop: 0
+  m_ApplyActiveColorSpace: 1
 --- !u!1 &802277388062011418
 GameObject:
   m_ObjectHideFlags: 0
@@ -14,12 +150,11 @@ GameObject:
   - component: {fileID: 1241386846395602875}
   - component: {fileID: 8680445251575855462}
   - component: {fileID: 2618767499378120150}
-  - component: {fileID: 8074819457403813158}
-  - component: {fileID: 4530634528289752566}
-  - component: {fileID: 7888960551403485462}
   - component: {fileID: 4032168641035989637}
   - component: {fileID: 5591285526220398510}
   - component: {fileID: 3119746487105835008}
+  - component: {fileID: 4825716768274265811}
+  - component: {fileID: 2612574890700861320}
   m_Layer: 0
   m_Name: Disc
   m_TagString: Untagged
@@ -44,6 +179,7 @@ Transform:
   - {fileID: 7566911771669745579}
   - {fileID: 8781494601043835046}
   - {fileID: 941715450491805454}
+  - {fileID: 8687763368429784362}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &50597063294389287
@@ -228,55 +364,6 @@ MonoBehaviour:
   flyingAudioSource: {fileID: 4032168641035989637}
   flyingSound: {fileID: 8300000, guid: 8f59a49138ef7e149a2d8000b127686f, type: 3}
   showDebugInfo: 1
---- !u!114 &8074819457403813158
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 802277388062011418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22c46093461a98d43be659acb45f3755, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetTag: Target
-  homingForce: 30
-  homingRange: 20
-  homingDelay: 0
-  maxHomingTime: 5
-  showDebugInfo: 1
---- !u!114 &4530634528289752566
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 802277388062011418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f91ee0da4ff293048bd3d342ecfcc6a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  returnSpeed: 40
-  maxFlyingTime: 5
-  curveHeight: 10
-  curveForce: 20
-  showDebugInfo: 1
---- !u!114 &7888960551403485462
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 802277388062011418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b409a4507bda67d41acf5071b1ed69f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  throwVelocityThreshold: 2
-  showDebugInfo: 1
 --- !u!82 &4032168641035989637
 AudioSource:
   m_ObjectHideFlags: 0
@@ -418,9 +505,9 @@ MonoBehaviour:
   selectEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7888960551403485462}
-        m_TargetAssemblyTypeName: VRArtMaking.DiscStateManager, Assembly-CSharp
-        m_MethodName: OnGrabbed
+      - m_Target: {fileID: 4825716768274265811}
+        m_TargetAssemblyTypeName: VRArtMaking.DiscController, Assembly-CSharp
+        m_MethodName: Grab
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -430,13 +517,37 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 621067971724758163}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   unselectEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7888960551403485462}
-        m_TargetAssemblyTypeName: VRArtMaking.DiscStateManager, Assembly-CSharp
-        m_MethodName: OnReleased
+      - m_Target: {fileID: 4825716768274265811}
+        m_TargetAssemblyTypeName: VRArtMaking.DiscController, Assembly-CSharp
+        m_MethodName: Throw
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 621067971724758163}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -451,9 +562,9 @@ MonoBehaviour:
   cancelEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7888960551403485462}
-        m_TargetAssemblyTypeName: VRArtMaking.DiscStateManager, Assembly-CSharp
-        m_MethodName: OnGrabCancelled
+      - m_Target: {fileID: 4825716768274265811}
+        m_TargetAssemblyTypeName: VRArtMaking.DiscController, Assembly-CSharp
+        m_MethodName: Return
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -477,6 +588,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineColor: {r: 0, g: 0, b: 0, a: 1}
   outlineWidth: 10
+--- !u!114 &4825716768274265811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802277388062011418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d91a0ba46411b64c8e66b7b7d36641b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  launchForce: 15
+  aimLineObject: {fileID: 621067971724758163}
+  returnSpeed: 15
+  flyTimeout: 10
+  showDebugInfo: 1
+--- !u!114 &2612574890700861320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802277388062011418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7978ca806c7e8e842b7bfbb2d96cd4e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTag: Target
+  homingRange: 3
+  homingSpeed: 10
+  homingDelay: 0
+  showDebugInfo: 1
+  showGizmos: 1
 --- !u!1 &1441970912514500144
 GameObject:
   m_ObjectHideFlags: 0
@@ -619,7 +765,7 @@ TrailRenderer:
     generateLightingData: 0
   m_MinVertexDistance: 0.1
   m_MaskInteraction: 0
-  m_Autodestruct: 1
+  m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
 --- !u!1 &1625113239234040569
@@ -905,7 +1051,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 17fba9e573a4e1c428bd733f3e6cf1be, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071067
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 17fba9e573a4e1c428bd733f3e6cf1be, type: 3}
       propertyPath: m_LocalRotation.x
@@ -913,15 +1059,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 17fba9e573a4e1c428bd733f3e6cf1be, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 17fba9e573a4e1c428bd733f3e6cf1be, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 17fba9e573a4e1c428bd733f3e6cf1be, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 17fba9e573a4e1c428bd733f3e6cf1be, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
