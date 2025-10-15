@@ -34,7 +34,8 @@ namespace VRArtMaking
             // Use the state system instead of kinematic check
             DiscStateManager stateManager = GetComponent<DiscStateManager>();
             bool isMoving = stateManager != null && 
-                           (stateManager.CurrentState == DiscStateManager.DiscState.Homing ||
+                           (stateManager.CurrentState == DiscStateManager.DiscState.Flying ||
+                            stateManager.CurrentState == DiscStateManager.DiscState.Homing ||
                             stateManager.CurrentState == DiscStateManager.DiscState.Returning);
             
             // Check if movement state changed
@@ -77,11 +78,8 @@ namespace VRArtMaking
         
         public void StopFlyingEffects()
         {
-            // Disable trail object
-            if (trailObject != null)
-            {
-                trailObject.SetActive(false);
-            }
+            // Keep trail object active - never disable it
+            // Trail will remain visible once started
             
             // Stop flying sound
             if (flyingAudioSource != null && isPlayingFlyingSound)
@@ -92,7 +90,7 @@ namespace VRArtMaking
             
             if (showDebugInfo)
             {
-                Debug.Log("Stopped flying effects - disc stopped moving");
+                Debug.Log("Stopped flying effects - disc stopped moving (trail remains active)");
             }
         }
     }
