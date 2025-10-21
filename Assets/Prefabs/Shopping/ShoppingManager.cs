@@ -1,5 +1,7 @@
 using UnityEngine;
 using System;
+using TMPro;
+using UnityEngine.Events;
 
 namespace VRArtMaking
 {
@@ -20,6 +22,15 @@ namespace VRArtMaking
         
         [Header("Game State")]
         [SerializeField] private bool isShopping = false;
+        
+        [Header("UI Text Displays")]
+        [SerializeField] private TextMeshProUGUI moneyText;
+        [SerializeField] private TextMeshProUGUI healthText;
+        [SerializeField] private TextMeshProUGUI hungerText;
+        
+        [Header("Unity Events")]
+        [SerializeField] private UnityEvent onShoppingStarted;
+        [SerializeField] private UnityEvent onShoppingEnded;
         
         [Header("Debug")]
         [SerializeField] private bool showDebugInfo = true;
@@ -46,6 +57,11 @@ namespace VRArtMaking
             currentHealth = startingHealth;
             currentHunger = startingHunger;
             
+            // Update UI displays
+            UpdateMoneyDisplay();
+            UpdateHealthDisplay();
+            UpdateHungerDisplay();
+            
             if (showDebugInfo)
             {
                 Debug.Log($"ShoppingManager initialized. Money: ${currentMoney}, Health: {currentHealth}, Hunger: {currentHunger}");
@@ -58,7 +74,6 @@ namespace VRArtMaking
             
             if (currentMoney < 0)
             {
-                currentMoney = 0;
                 OnOutOfMoney?.Invoke();
                 
                 if (showDebugInfo)
@@ -92,7 +107,6 @@ namespace VRArtMaking
             
             if (currentHealth < 0)
             {
-                currentHealth = 0;
                 OnHealthDepleted?.Invoke();
                 
                 if (showDebugInfo)
@@ -154,11 +168,6 @@ namespace VRArtMaking
         {
             currentHunger -= amount;
             
-            if (currentHunger < 0)
-            {
-                currentHunger = 0;
-            }
-            
             OnHungerChanged?.Invoke(currentHunger);
             
             if (showDebugInfo)
@@ -171,6 +180,9 @@ namespace VRArtMaking
         {
             isShopping = true;
             
+            // Invoke Unity Event
+            onShoppingStarted?.Invoke();
+            
             if (showDebugInfo)
             {
                 Debug.Log("Shopping started!");
@@ -179,21 +191,34 @@ namespace VRArtMaking
         
         public void EndShopping()
         {
-            if (currentHunger >= maxHunger)
+            // Check if all conditions are met to end shopping
+            bool hungerIsFull = currentHunger >= maxHunger;
+            bool moneyIsNonNegative = currentMoney >= 0;
+            bool healthIsNonNegative = currentHealth >= 0;
+            
+            if (hungerIsFull && moneyIsNonNegative && healthIsNonNegative)
             {
                 isShopping = false;
+                
+                // Invoke both C# event and Unity Event
                 OnShoppingEnded?.Invoke();
+                onShoppingEnded?.Invoke();
                 
                 if (showDebugInfo)
                 {
-                    Debug.Log("Shopping ended! Hunger is full.");
+                    Debug.Log("Shopping ended! All conditions met: Hunger is full and all values are non-negative.");
                 }
             }
             else
             {
                 if (showDebugInfo)
                 {
-                    Debug.LogWarning($"Cannot end shopping yet. Hunger: {currentHunger}/{maxHunger}");
+                    string issues = "";
+                    if (!hungerIsFull) issues += $"Hunger not full ({currentHunger}/{maxHunger})";
+                    if (!moneyIsNonNegative) issues += (issues.Length > 0 ? ", " : "") + $"Money is negative (${currentMoney:F2})";
+                    if (!healthIsNonNegative) issues += (issues.Length > 0 ? ", " : "") + $"Health is negative ({currentHealth:F1})";
+                    
+                    Debug.LogWarning($"Cannot end shopping yet. Issues: {issues}");
                 }
             }
         }
@@ -208,10 +233,55 @@ namespace VRArtMaking
             OnHealthChanged?.Invoke(currentHealth);
             OnHungerChanged?.Invoke(currentHunger);
             
+            // Update UI displays
+            UpdateMoneyDisplay();
+            UpdateHealthDisplay();
+            UpdateHungerDisplay();
+            
             if (showDebugInfo)
             {
                 Debug.Log("ShoppingManager stats reset to starting values");
             }
+        }
+        
+        private void UpdateMoneyDisplay()
+        {
+            if (moneyText != null)
+            {
+                moneyText.text = $"Money: ${currentMoney:F2}";
+            }
+        }
+        
+        private void UpdateHealthDisplay()
+        {
+            if (healthText != null)
+            {
+                healthText.text = $"Health: {currentHealth:F1}";
+            }
+        }
+        
+        private void UpdateHungerDisplay()
+        {
+            if (hungerText != null)
+            {
+                hungerText.text = $"Hunger: {currentHunger:F1}/{maxHunger:F1}";
+            }
+        }
+        
+        private void OnEnable()
+        {
+            // Subscribe to events to update UI
+            OnMoneyChanged += (value) => UpdateMoneyDisplay();
+            OnHealthChanged += (value) => UpdateHealthDisplay();
+            OnHungerChanged += (value) => UpdateHungerDisplay();
+        }
+        
+        private void OnDisable()
+        {
+            // Unsubscribe from events
+            OnMoneyChanged -= (value) => UpdateMoneyDisplay();
+            OnHealthChanged -= (value) => UpdateHealthDisplay();
+            OnHungerChanged -= (value) => UpdateHungerDisplay();
         }
     }
 }
