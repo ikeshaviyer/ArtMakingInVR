@@ -33,7 +33,7 @@ namespace VRArtMaking
             }
         }
         
-        private void OnTriggerEnter(Collider other)
+        void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag(playerTag))
             {
@@ -48,7 +48,7 @@ namespace VRArtMaking
             }
         }
         
-        private void OnTriggerExit(Collider other)
+        void OnTriggerExit(Collider other)
         {
             if (other.CompareTag(playerTag))
             {
