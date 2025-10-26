@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5accf4c923f6de49ab3965c17c751aa, type: 3}
   m_Name: Channel 2
   m_EditorClassIdentifier: 
-  channelNumber: 0
+  channelNumber: 2
   channelName: Channel 0
   description: 
   videoClip: {fileID: 32900000, guid: 3591a6d7800ddee448a0e708285728bf, type: 3}

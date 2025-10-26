@@ -93,6 +93,10 @@ namespace VRArtMaking
                     videoPlayer.SetDirectAudioVolume(0, channel.audioVolume);
                 }
             }
+            
+            // Notify game manager of channel change
+            var gameManager = FindObjectOfType<TVGameManager>();
+            gameManager?.OnTVChannelChanged();
         }
         
         public void SetStaticTV(bool isStatic)

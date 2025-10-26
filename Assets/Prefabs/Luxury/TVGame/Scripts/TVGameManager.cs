@@ -136,6 +136,11 @@ namespace VRArtMaking
             }
         }
         
+        public void OnTVChannelChanged()
+        {
+            CheckGameCompletion();
+        }
+        
         [ContextMenu("Start Game")]
         public void StartGameFromContextMenu() => StartGame();
     }
