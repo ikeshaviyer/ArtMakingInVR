@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,6 +13,10 @@ namespace VRArtMaking
         
         [Header("Game Settings")]
         [SerializeField] private bool startOnAwake = true;
+        
+        [Header("Unity Events")]
+        [SerializeField] private UnityEvent onGameStarted;
+        [SerializeField] private UnityEvent onGameCompleted;
         
         [Header("Debug")]
         [SerializeField] private bool showDebugInfo = true;
@@ -108,6 +113,10 @@ namespace VRArtMaking
             if (gameStarted) return;
             gameStarted = true;
             gameCompleted = false;
+            
+            // Invoke Unity Event
+            onGameStarted?.Invoke();
+            
             if (showDebugInfo) Debug.Log("TV Game started!");
         }
         
@@ -118,7 +127,11 @@ namespace VRArtMaking
             if (controllableTVs.All(tv => tv.CheckIfCorrectChannel()))
             {
                 gameCompleted = true;
+                
+                // Invoke both C# event and Unity Event
                 OnGameCompleted?.Invoke();
+                onGameCompleted?.Invoke();
+                
                 if (showDebugInfo) Debug.Log("All TVs matched! Game completed!");
             }
         }

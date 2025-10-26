@@ -28,6 +28,10 @@ namespace VRArtMaking
         {
             if (isStaticTV || channelIndex < 0 || channelIndex >= channels.Count) return;
             
+            // Check if game is completed
+            var gameManager = FindObjectOfType<TVGameManager>();
+            if (gameManager != null && gameManager.IsGameCompleted) return;
+            
             currentChannelIndex = channelIndex;
             UpdateDisplay();
         }
@@ -35,12 +39,22 @@ namespace VRArtMaking
         public void NextChannel()
         {
             if (isStaticTV) return;
+            
+            // Check if game is completed
+            var gameManager = FindObjectOfType<TVGameManager>();
+            if (gameManager != null && gameManager.IsGameCompleted) return;
+            
             SetChannel((currentChannelIndex + 1) % channels.Count);
         }
         
         public void PreviousChannel()
         {
             if (isStaticTV) return;
+            
+            // Check if game is completed
+            var gameManager = FindObjectOfType<TVGameManager>();
+            if (gameManager != null && gameManager.IsGameCompleted) return;
+            
             SetChannel(currentChannelIndex == 0 ? channels.Count - 1 : currentChannelIndex - 1);
         }
         
