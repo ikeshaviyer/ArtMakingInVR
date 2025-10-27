@@ -168,6 +168,12 @@ namespace VRArtMaking
         {
             currentHunger -= amount;
             
+            // Prevent hunger from going negative - clamp to 0
+            if (currentHunger < 0)
+            {
+                currentHunger = 0;
+            }
+            
             OnHungerChanged?.Invoke(currentHunger);
             
             if (showDebugInfo)
