@@ -76,7 +76,17 @@ namespace VRArtMaking
             {
                 shoppingManager.AddMoney(grocery.Price);
                 shoppingManager.SubtractLifeExpectancy(grocery.LifeExpectancy);
-                shoppingManager.SubtractHunger(grocery.HungerValue);
+                
+                // Prevent hunger from going negative - set to 0 if it would go below 0
+                float newHunger = shoppingManager.CurrentHunger - grocery.HungerValue;
+                if (newHunger < 0)
+                {
+                    shoppingManager.SetHunger(0);
+                }
+                else
+                {
+                    shoppingManager.SubtractHunger(grocery.HungerValue);
+                }
             }
             
             if (showDebugInfo)
