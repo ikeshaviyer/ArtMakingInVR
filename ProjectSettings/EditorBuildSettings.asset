@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Shopping.unity
     guid: d4d7ba89eda914e49a5e2a2e0a161444
   - enabled: 1
-    path: Assets/Scenes/Luxury.unity
+    path: Assets/Scenes/Luxury_Test.unity
     guid: 90a1e1888816107469c5b45238899e01
   - enabled: 1
     path: Assets/Scenes/360Video1.unity
