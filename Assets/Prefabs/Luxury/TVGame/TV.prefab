@@ -1451,6 +1451,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 9e10f49825833e640b7e7c7bf6863d60, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: fce167761361d4d40ba8e4d54bb1cdb9, type: 2}
     - target: {fileID: 919132149155446097, guid: 9e10f49825833e640b7e7c7bf6863d60, type: 3}
       propertyPath: m_Name
       value: Luxuary Floor TV_DownButton
@@ -1528,6 +1532,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: a9e53638ac1828a4bb78dd0a4a6b096b, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: fce167761361d4d40ba8e4d54bb1cdb9, type: 2}
     - target: {fileID: 919132149155446097, guid: a9e53638ac1828a4bb78dd0a4a6b096b, type: 3}
       propertyPath: m_Name
       value: Luxuary Floor TV_UpButton
@@ -1605,6 +1613,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: a92484e5b6508e44e8ee8c2ee1155ddc, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: bea419f93e146004b9dde828639959c7, type: 2}
     - target: {fileID: 919132149155446097, guid: a92484e5b6508e44e8ee8c2ee1155ddc, type: 3}
       propertyPath: m_Name
       value: Luxuary Floor TV_Case_no_Buttons

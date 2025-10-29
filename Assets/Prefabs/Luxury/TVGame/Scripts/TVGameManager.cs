@@ -31,6 +31,9 @@ namespace VRArtMaking
         private bool gameStarted = false;
         private bool gameCompleted = false;
         
+        // Video Synchronization
+        private Dictionary<ChannelData, float> channelStartTimes = new Dictionary<ChannelData, float>();
+        
         // Properties
         public bool IsGameStarted => gameStarted;
         public bool IsGameCompleted => gameCompleted;
@@ -64,6 +67,9 @@ namespace VRArtMaking
             // Distribute channels
             DistributeChannels();
             
+            // Initialize video synchronization
+            InitializeChannelSynchronization();
+            
             // Start game if enabled
             if (startOnAwake)
             {
@@ -95,7 +101,26 @@ namespace VRArtMaking
             {
                 var tvChannels = channelPool.Skip(index).Take(channelsPerTV).ToList();
                 tvChannels.Add(correctChannel);
+                
+                // Shuffle channels but ensure correct channel is NOT at index 0
                 tvChannels = tvChannels.OrderBy(x => Random.Range(0f, 1f)).ToList();
+                
+                // If correct channel ended up at index 0, swap it with another channel
+                if (tvChannels.Count > 1 && tvChannels[0].isCorrectChannel)
+                {
+                    // Find the first non-correct channel and swap
+                    for (int i = 1; i < tvChannels.Count; i++)
+                    {
+                        if (!tvChannels[i].isCorrectChannel)
+                        {
+                            var temp = tvChannels[0];
+                            tvChannels[0] = tvChannels[i];
+                            tvChannels[i] = temp;
+                            break;
+                        }
+                    }
+                }
+                
                 tv.SetChannels(tvChannels);
                 index += channelsPerTV;
             }
@@ -143,5 +168,42 @@ namespace VRArtMaking
         
         [ContextMenu("Start Game")]
         public void StartGameFromContextMenu() => StartGame();
+        
+        // Video Synchronization Methods
+        public float GetChannelPlaybackTime(ChannelData channel)
+        {
+            if (channel == null || channel.videoClip == null) return 0f;
+            
+            if (!channelStartTimes.ContainsKey(channel))
+            {
+                // Initialize start time for this channel
+                channelStartTimes[channel] = Time.time;
+                return 0f;
+            }
+            
+            float elapsedTime = Time.time - channelStartTimes[channel];
+            float videoDuration = (float)channel.videoClip.length;
+            
+            // Loop the video if it's longer than duration
+            return videoDuration > 0 ? elapsedTime % videoDuration : 0f;
+        }
+        
+        public void InitializeChannelSynchronization()
+        {
+            // Initialize all channels to start at the same time
+            float currentTime = Time.time;
+            foreach (var channel in allChannels)
+            {
+                if (channel != null && channel.videoClip != null)
+                {
+                    channelStartTimes[channel] = currentTime;
+                }
+            }
+            
+            if (showDebugInfo)
+            {
+                Debug.Log($"Initialized synchronization for {channelStartTimes.Count} channels");
+            }
+        }
     }
 }
