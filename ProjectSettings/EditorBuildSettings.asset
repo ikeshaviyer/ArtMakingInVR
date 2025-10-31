@@ -15,11 +15,14 @@ EditorBuildSettings:
     path: Assets/Scenes/Shopping.unity
     guid: d4d7ba89eda914e49a5e2a2e0a161444
   - enabled: 1
-    path: Assets/Scenes/Luxury.unity
+    path: Assets/Scenes/Luxury_Test.unity
     guid: 90a1e1888816107469c5b45238899e01
   - enabled: 1
     path: Assets/Scenes/360Video1.unity
     guid: f39688bc13c32924baf90bb24c2bbe26
+  - enabled: 1
+    path: Assets/Scenes/Luxury.unity
+    guid: 34ed63c6813cc714ab7eb96765378590
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 99c8b64c88464b44994893b283d9e459, type: 2}
     com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: fb334d9b57fe5184e8361808ad659b91, type: 2}

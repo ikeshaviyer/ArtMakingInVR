@@ -63,6 +63,7 @@ namespace VRArtMaking
             if (channels.Count == 0) return;
             
             var channel = channels[currentChannelIndex];
+            var gameManager = FindObjectOfType<TVGameManager>();
             
             if (videoPlayer != null)
             {
@@ -70,7 +71,15 @@ namespace VRArtMaking
                 {
                     videoPlayer.clip = channel.videoClip;
                     videoPlayer.isLooping = true;
+                    
                     videoPlayer.Play();
+                    
+                    // Get synchronized playback time from game manager
+                    if (gameManager != null)
+                    {
+                        float syncTime = gameManager.GetChannelPlaybackTime(channel);
+                        videoPlayer.time = syncTime;
+                    }
                 }
                 else
                 {
@@ -85,6 +94,14 @@ namespace VRArtMaking
                     // Use separate audio clip
                     audioSource.clip = channel.channelAudio;
                     audioSource.volume = channel.audioVolume;
+                    
+                    // Sync audio time as well if game manager exists
+                    if (gameManager != null)
+                    {
+                        float syncTime = gameManager.GetChannelPlaybackTime(channel);
+                        audioSource.time = syncTime % audioSource.clip.length;
+                    }
+                    
                     audioSource.Play();
                 }
                 else if (videoPlayer != null && videoPlayer.clip != null)
@@ -95,7 +112,6 @@ namespace VRArtMaking
             }
             
             // Notify game manager of channel change
-            var gameManager = FindObjectOfType<TVGameManager>();
             gameManager?.OnTVChannelChanged();
         }
         
@@ -123,5 +139,12 @@ namespace VRArtMaking
         }
         
         public bool CheckIfCorrectChannel() => IsOnCorrectChannel;
+        
+        public ChannelData GetCurrentChannel()
+        {
+            return channels.Count > 0 && currentChannelIndex >= 0 && currentChannelIndex < channels.Count 
+                ? channels[currentChannelIndex] 
+                : null;
+        }
     }
 }
