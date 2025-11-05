@@ -22,6 +22,8 @@ namespace VRArtMaking
         
         [Header("Game State")]
         [SerializeField] private bool isShopping = false;
+        [SerializeField] private bool isFat = false;
+        [SerializeField] private bool isBroke = false;
         
         [Header("UI Text Displays")]
         [SerializeField] private TextMeshProUGUI moneyText;
@@ -43,6 +45,8 @@ namespace VRArtMaking
         public event Action OnHealthDepleted;
         public event Action OnHungerFull;
         public event Action OnShoppingEnded;
+        public event Action OnFat;
+        public event Action OnBroke;
         
         public float Money => currentMoney;
         public float Health => currentHealth;
@@ -205,6 +209,20 @@ namespace VRArtMaking
             if (hungerIsFull && moneyIsNonNegative && healthIsNonNegative)
             {
                 isShopping = false;
+                
+                // Set end game state based on life expectancy
+                if (currentHealth < 50)
+                {
+                    isFat = true;
+                    isBroke = false;
+                    OnFat?.Invoke();
+                }
+                else
+                {
+                    isFat = false;
+                    isBroke = true;
+                    OnBroke?.Invoke();
+                }
                 
                 // Invoke both C# event and Unity Event
                 OnShoppingEnded?.Invoke();
