@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3368245238599487343
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 661474086621172458, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
+      propertyPath: m_Name
+      value: Donut Box Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 1008631417988791402, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
+      propertyPath: m_text
+      value: 'Hunger: +12'
+      objectReference: {fileID: 0}
+    - target: {fileID: 1318596191768792664, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
+      propertyPath: m_text
+      value: Donut Box
+      objectReference: {fileID: 0}
+    - target: {fileID: 2068439177293378216, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
+      propertyPath: price
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2068439177293378216, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
+      propertyPath: itemName
+      value: Donut Box
+      objectReference: {fileID: 0}
+    - target: {fileID: 2068439177293378216, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
+      propertyPath: hungerValue
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 2068439177293378216, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
+      propertyPath: lifeExpectancy
+      value: -9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2696279983810921857, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
+      propertyPath: m_text
+      value: $6.00
+      objectReference: {fileID: 0}
+    - target: {fileID: 4976169931916551279, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6.1333904
+      objectReference: {fileID: 0}
+    - target: {fileID: 4976169931916551279, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.6346107
+      objectReference: {fileID: 0}
+    - target: {fileID: 4976169931916551279, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.940001
+      objectReference: {fileID: 0}
+    - target: {fileID: 4976169931916551279, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4976169931916551279, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4976169931916551279, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4976169931916551279, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4976169931916551279, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4976169931916551279, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4976169931916551279, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6141146246821575988, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
+      propertyPath: m_text
+      value: 'Life: -9'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7881537294684646319, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
