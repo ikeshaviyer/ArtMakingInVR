@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1318596191768792664, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
       propertyPath: m_text
-      value: Ceral Box
+      value: Cereal Box
       objectReference: {fileID: 0}
     - target: {fileID: 2068439177293378216, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
       propertyPath: price
@@ -26,7 +26,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2068439177293378216, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
       propertyPath: itemName
-      value: Ceral Box
+      value: Cereal Box
       objectReference: {fileID: 0}
     - target: {fileID: 2068439177293378216, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
       propertyPath: hungerValue

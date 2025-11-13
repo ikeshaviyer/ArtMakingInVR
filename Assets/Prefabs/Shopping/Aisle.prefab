@@ -245,9 +245,28 @@ MonoBehaviour:
   - {fileID: 2085440439678122914}
   - {fileID: 4857746021451202336}
   groceryItemPrefabs:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 7505530274124804151, guid: 4dff0474087f00249b00b79560faa8e4, type: 3}
+  - {fileID: 3713818488977885221, guid: 06370c6a65679b643817da11e8c21fc6, type: 3}
+  - {fileID: 3491056092454276205, guid: 55ad50357f254b94fb53c64e23c901fa, type: 3}
+  - {fileID: 8108721437053587863, guid: 1cd13b3f1a1e1d549b5f795e6f1fdd5a, type: 3}
+  - {fileID: 379503788430594238, guid: 8d496c0e25c9dab47b4a6dea5dc70a3c, type: 3}
+  - {fileID: 4143751953555304948, guid: fd3a36f771b47b34180acb44ab47e13a, type: 3}
+  - {fileID: 5996614319330407917, guid: a22b4e8613b15b3458237a55a4273bb8, type: 3}
+  - {fileID: 2042281073823946985, guid: bd4446780556a4a41b6a331f69241500, type: 3}
+  - {fileID: 3573507449667827792, guid: a00dc3871560c104889b3362321b850c, type: 3}
+  - {fileID: 7905018915768952500, guid: b4a73bd539f3b9f44a5e58960fe6706a, type: 3}
+  - {fileID: 5173421112935210868, guid: ab97475fcb6d33b47bb0aa6d4ae14b32, type: 3}
+  - {fileID: 8352840007239522742, guid: 0feccd22cfa3dec4fa311021aa8ecbbf, type: 3}
+  - {fileID: 7966555177518490853, guid: 248de94686bcf9a48b9004f830194c08, type: 3}
+  - {fileID: 8055657497257256298, guid: e672fccbf9824b345afe03a312b4a042, type: 3}
+  - {fileID: 3852380537835385357, guid: 37105defead2ae2478bf00636f3e151c, type: 3}
+  - {fileID: 6617179463118570307, guid: 45f96f8f9e30f4f4cb171020b1ea3e8a, type: 3}
+  - {fileID: 8147283901608690727, guid: 5b7dab421e8b42145937aa900c8146b3, type: 3}
+  - {fileID: 2903147084371400869, guid: c9e3846dc47842447af1a84b67adff68, type: 3}
+  - {fileID: 3655554725040407598, guid: adc3018037b141b4d8d2ecc331b0dc6c, type: 3}
+  - {fileID: 2850899646672395653, guid: b00b979c1ef31684c9d83c7297207a6e, type: 3}
+  - {fileID: 3688294311908688021, guid: 42fa0ba57b978d646a93b1b9876f547c, type: 3}
+  - {fileID: 8297905229507181255, guid: 59cf361534d90124a9bb3f9915e1a2ec, type: 3}
   randomSpawn: 1
   spawnOnStart: 1
   clearBeforeRespawn: 1
@@ -307,8 +326,38 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 233209e43f072c049ba6903bb06c4f22, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6244605040896487412}
   m_SourcePrefab: {fileID: 100100000, guid: 233209e43f072c049ba6903bb06c4f22, type: 3}
+--- !u!1 &7252895877886379596 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 233209e43f072c049ba6903bb06c4f22, type: 3}
+  m_PrefabInstance: {fileID: 7522734924434848541}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &6244605040896487412
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7252895877886379596}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 9148106930174485795, guid: 233209e43f072c049ba6903bb06c4f22, type: 3}
 --- !u!4 &8065004595335683318 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 233209e43f072c049ba6903bb06c4f22, type: 3}
