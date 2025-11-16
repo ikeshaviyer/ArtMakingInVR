@@ -1,5 +1,83 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6180086155021448218
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4100429662412985469}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: ad3a5ab1dafb85c4c9a06a73eac966e1, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 16.93
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ad3a5ab1dafb85c4c9a06a73eac966e1, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 9.06472
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ad3a5ab1dafb85c4c9a06a73eac966e1, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 16.93
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ad3a5ab1dafb85c4c9a06a73eac966e1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.00000023841858
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ad3a5ab1dafb85c4c9a06a73eac966e1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ad3a5ab1dafb85c4c9a06a73eac966e1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.000000059604645
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ad3a5ab1dafb85c4c9a06a73eac966e1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.49999997
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ad3a5ab1dafb85c4c9a06a73eac966e1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ad3a5ab1dafb85c4c9a06a73eac966e1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ad3a5ab1dafb85c4c9a06a73eac966e1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ad3a5ab1dafb85c4c9a06a73eac966e1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ad3a5ab1dafb85c4c9a06a73eac966e1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ad3a5ab1dafb85c4c9a06a73eac966e1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ad3a5ab1dafb85c4c9a06a73eac966e1, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ad3a5ab1dafb85c4c9a06a73eac966e1, type: 3}
+      propertyPath: m_Name
+      value: SodaBottle6pack
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ad3a5ab1dafb85c4c9a06a73eac966e1, type: 3}
+--- !u!4 &5930865639179785201 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ad3a5ab1dafb85c4c9a06a73eac966e1, type: 3}
+  m_PrefabInstance: {fileID: 6180086155021448218}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9072870050465345554
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -80,6 +158,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5574401170671299404, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6141146246821575988, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
       propertyPath: m_text
       value: 'Life: -18'
@@ -90,6 +172,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 4976169931916551279, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5930865639179785201}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
+--- !u!4 &4100429662412985469 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4976169931916551279, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
+  m_PrefabInstance: {fileID: 9072870050465345554}
+  m_PrefabAsset: {fileID: 0}

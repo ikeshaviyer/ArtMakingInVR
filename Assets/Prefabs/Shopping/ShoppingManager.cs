@@ -10,7 +10,7 @@ namespace VRArtMaking
     {
         [Header("Starting Stats")]
         [SerializeField] private float startingMoney = 100f;
-        [SerializeField] private int startingHealth = 100;
+        [SerializeField] private float startingHealth = 100f;
         [SerializeField] private float startingHunger = 0f;
         
         [Header("Hunger Limits")]
@@ -18,7 +18,7 @@ namespace VRArtMaking
         
         [Header("Current Stats")]
         [SerializeField] private float currentMoney;
-        [SerializeField] private int currentHealth;
+        [SerializeField] private float currentHealth;
         [SerializeField] private float currentHunger;
         
         [Header("Game State")]
@@ -45,7 +45,7 @@ namespace VRArtMaking
         
         // Events for when stats change
         public event Action<float> OnMoneyChanged;
-        public event Action<int> OnHealthChanged;
+        public event Action<float> OnHealthChanged;
         public event Action<float> OnHungerChanged;
         public event Action OnOutOfMoney;
         public event Action OnHealthDepleted;
@@ -55,7 +55,7 @@ namespace VRArtMaking
         public event Action OnBroke;
         
         public float Money => currentMoney;
-        public int Health => currentHealth;
+        public float Health => currentHealth;
         public float Hunger => currentHunger;
         public float MaxHunger => maxHunger;
         public bool IsShopping => isShopping;
@@ -118,7 +118,7 @@ namespace VRArtMaking
             }
         }
         
-        public void SubtractLifeExpectancy(int amount)
+        public void SubtractLifeExpectancy(float amount)
         {
             currentHealth -= amount;
             
@@ -141,7 +141,7 @@ namespace VRArtMaking
             }
         }
         
-        public void AddLifeExpectancy(int amount)
+        public void AddLifeExpectancy(float amount)
         {
             currentHealth += amount;
             
@@ -257,7 +257,7 @@ namespace VRArtMaking
                     string issues = "";
                     if (!hungerIsFull) issues += $"Hunger not full ({currentHunger}/{maxHunger})";
                     if (!moneyIsNonNegative) issues += (issues.Length > 0 ? ", " : "") + $"Money is negative (${currentMoney:F2})";
-                    if (!healthIsNonNegative) issues += (issues.Length > 0 ? ", " : "") + $"Health is negative ({currentHealth})";
+                    if (!healthIsNonNegative) issues += (issues.Length > 0 ? ", " : "") + $"Health is negative ({currentHealth:F1})";
                     
                     Debug.LogWarning($"Cannot end shopping yet. Issues: {issues}");
                 }
@@ -302,7 +302,7 @@ namespace VRArtMaking
         {
             if (healthText != null)
             {
-                healthText.text = $"{currentHealth}";
+                healthText.text = $"{currentHealth:F1}";
             }
         }
         
@@ -330,7 +330,7 @@ namespace VRArtMaking
             if (healthSlider != null)
             {
                 // Normalize health: currentHealth / startingHealth, clamped to 0-1
-                float normalizedValue = startingHealth > 0 ? Mathf.Clamp01((float)currentHealth / startingHealth) : 0f;
+                float normalizedValue = startingHealth > 0 ? Mathf.Clamp01(currentHealth / startingHealth) : 0f;
                 healthSlider.value = normalizedValue;
             }
         }
