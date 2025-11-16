@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 using TMPro;
 using UnityEngine.Events;
@@ -9,7 +10,7 @@ namespace VRArtMaking
     {
         [Header("Starting Stats")]
         [SerializeField] private float startingMoney = 100f;
-        [SerializeField] private float startingHealth = 100f;
+        [SerializeField] private int startingHealth = 100;
         [SerializeField] private float startingHunger = 0f;
         
         [Header("Hunger Limits")]
@@ -17,7 +18,7 @@ namespace VRArtMaking
         
         [Header("Current Stats")]
         [SerializeField] private float currentMoney;
-        [SerializeField] private float currentHealth;
+        [SerializeField] private int currentHealth;
         [SerializeField] private float currentHunger;
         
         [Header("Game State")]
@@ -30,6 +31,11 @@ namespace VRArtMaking
         [SerializeField] private TextMeshProUGUI healthText;
         [SerializeField] private TextMeshProUGUI hungerText;
         
+        [Header("UI Sliders")]
+        [SerializeField] private Slider moneySlider;
+        [SerializeField] private Slider healthSlider;
+        [SerializeField] private Slider hungerSlider;
+        
         [Header("Unity Events")]
         [SerializeField] private UnityEvent onShoppingStarted;
         [SerializeField] private UnityEvent onShoppingEnded;
@@ -39,7 +45,7 @@ namespace VRArtMaking
         
         // Events for when stats change
         public event Action<float> OnMoneyChanged;
-        public event Action<float> OnHealthChanged;
+        public event Action<int> OnHealthChanged;
         public event Action<float> OnHungerChanged;
         public event Action OnOutOfMoney;
         public event Action OnHealthDepleted;
@@ -49,7 +55,7 @@ namespace VRArtMaking
         public event Action OnBroke;
         
         public float Money => currentMoney;
-        public float Health => currentHealth;
+        public int Health => currentHealth;
         public float Hunger => currentHunger;
         public float MaxHunger => maxHunger;
         public bool IsShopping => isShopping;
@@ -65,6 +71,11 @@ namespace VRArtMaking
             UpdateMoneyDisplay();
             UpdateHealthDisplay();
             UpdateHungerDisplay();
+            
+            // Update slider values
+            UpdateMoneySlider();
+            UpdateHealthSlider();
+            UpdateHungerSlider();
             
             if (showDebugInfo)
             {
@@ -87,6 +98,7 @@ namespace VRArtMaking
             }
             
             OnMoneyChanged?.Invoke(currentMoney);
+            UpdateMoneySlider();
             
             if (showDebugInfo)
             {
@@ -98,6 +110,7 @@ namespace VRArtMaking
         {
             currentMoney += amount;
             OnMoneyChanged?.Invoke(currentMoney);
+            UpdateMoneySlider();
             
             if (showDebugInfo)
             {
@@ -105,7 +118,7 @@ namespace VRArtMaking
             }
         }
         
-        public void SubtractLifeExpectancy(float amount)
+        public void SubtractLifeExpectancy(int amount)
         {
             currentHealth -= amount;
             
@@ -120,6 +133,7 @@ namespace VRArtMaking
             }
             
             OnHealthChanged?.Invoke(currentHealth);
+            UpdateHealthSlider();
             
             if (showDebugInfo)
             {
@@ -127,7 +141,7 @@ namespace VRArtMaking
             }
         }
         
-        public void AddLifeExpectancy(float amount)
+        public void AddLifeExpectancy(int amount)
         {
             currentHealth += amount;
             
@@ -138,6 +152,7 @@ namespace VRArtMaking
             }
             
             OnHealthChanged?.Invoke(currentHealth);
+            UpdateHealthSlider();
             
             if (showDebugInfo)
             {
@@ -161,6 +176,7 @@ namespace VRArtMaking
             }
             
             OnHungerChanged?.Invoke(currentHunger);
+            UpdateHungerSlider();
             
             if (showDebugInfo)
             {
@@ -179,6 +195,7 @@ namespace VRArtMaking
             }
             
             OnHungerChanged?.Invoke(currentHunger);
+            UpdateHungerSlider();
             
             if (showDebugInfo)
             {
@@ -240,7 +257,7 @@ namespace VRArtMaking
                     string issues = "";
                     if (!hungerIsFull) issues += $"Hunger not full ({currentHunger}/{maxHunger})";
                     if (!moneyIsNonNegative) issues += (issues.Length > 0 ? ", " : "") + $"Money is negative (${currentMoney:F2})";
-                    if (!healthIsNonNegative) issues += (issues.Length > 0 ? ", " : "") + $"Health is negative ({currentHealth:F1})";
+                    if (!healthIsNonNegative) issues += (issues.Length > 0 ? ", " : "") + $"Health is negative ({currentHealth})";
                     
                     Debug.LogWarning($"Cannot end shopping yet. Issues: {issues}");
                 }
@@ -262,6 +279,11 @@ namespace VRArtMaking
             UpdateHealthDisplay();
             UpdateHungerDisplay();
             
+            // Update slider values
+            UpdateMoneySlider();
+            UpdateHealthSlider();
+            UpdateHungerSlider();
+            
             if (showDebugInfo)
             {
                 Debug.Log("ShoppingManager stats reset to starting values");
@@ -272,7 +294,7 @@ namespace VRArtMaking
         {
             if (moneyText != null)
             {
-                moneyText.text = $"Money: ${currentMoney:F2}";
+                moneyText.text = $"${currentMoney:F2}";
             }
         }
         
@@ -280,7 +302,7 @@ namespace VRArtMaking
         {
             if (healthText != null)
             {
-                healthText.text = $"Health: {currentHealth:F1}";
+                healthText.text = $"{currentHealth}";
             }
         }
         
@@ -288,13 +310,45 @@ namespace VRArtMaking
         {
             if (hungerText != null)
             {
-                hungerText.text = $"Hunger: {currentHunger:F1}/{maxHunger:F1}";
+                hungerText.text = $"{currentHunger:F1}/{maxHunger:F1}";
+            }
+        }
+        
+        private void UpdateMoneySlider()
+        {
+            if (moneySlider != null)
+            {
+                // Normalize money: currentMoney / startingMoney, clamped to 0-1
+                // If money goes negative, show 0. If it exceeds starting, show 1.
+                float normalizedValue = startingMoney > 0 ? Mathf.Clamp01(currentMoney / startingMoney) : 0f;
+                moneySlider.value = normalizedValue;
+            }
+        }
+        
+        private void UpdateHealthSlider()
+        {
+            if (healthSlider != null)
+            {
+                // Normalize health: currentHealth / startingHealth, clamped to 0-1
+                float normalizedValue = startingHealth > 0 ? Mathf.Clamp01((float)currentHealth / startingHealth) : 0f;
+                healthSlider.value = normalizedValue;
+            }
+        }
+        
+        private void UpdateHungerSlider()
+        {
+            if (hungerSlider != null)
+            {
+                // Normalize hunger: currentHunger / maxHunger, clamped to 0-1
+                float normalizedValue = maxHunger > 0 ? Mathf.Clamp01(currentHunger / maxHunger) : 0f;
+                hungerSlider.value = normalizedValue;
             }
         }
         
         private void OnEnable()
         {
-            // Subscribe to events to update UI
+            // Subscribe to events to update UI text displays
+            // Note: Sliders are updated directly in the methods, not through events
             OnMoneyChanged += (value) => UpdateMoneyDisplay();
             OnHealthChanged += (value) => UpdateHealthDisplay();
             OnHungerChanged += (value) => UpdateHungerDisplay();
