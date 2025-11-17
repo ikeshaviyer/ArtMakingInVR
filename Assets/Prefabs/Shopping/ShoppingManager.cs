@@ -58,6 +58,8 @@ namespace VRArtMaking
         public float Health => currentHealth;
         public float Hunger => currentHunger;
         public float MaxHunger => maxHunger;
+        public float StartingMoney => startingMoney;
+        public float StartingHealth => startingHealth;
         public bool IsShopping => isShopping;
         
         private void Start()
