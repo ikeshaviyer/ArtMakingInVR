@@ -504,7 +504,7 @@ MonoBehaviour:
   hitEffectPrefab: {fileID: 0}
   hitParticles: {fileID: 0}
   audioSource: {fileID: 1166575750158946114}
-  hitSound: {fileID: 0}
+  hitSound: {fileID: 8300000, guid: 03b75875fb1502d4e910676cd33f7746, type: 3}
   destroySound: {fileID: 8300000, guid: 03b75875fb1502d4e910676cd33f7746, type: 3}
   showDebugInfo: 1
 --- !u!82 &1166575750158946114
@@ -563,7 +563,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
