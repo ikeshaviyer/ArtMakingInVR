@@ -16,6 +16,18 @@ PrefabInstance:
       propertyPath: onPlayerEnter.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1952584300860698743, guid: 79681a4847cf1b14a9b89528f0cd90a2, type: 3}
+      propertyPath: m_Name
+      value: Right Panel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2028439635824241353, guid: 79681a4847cf1b14a9b89528f0cd90a2, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2717980532909285160, guid: 79681a4847cf1b14a9b89528f0cd90a2, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4321483369900559692, guid: 79681a4847cf1b14a9b89528f0cd90a2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -56,9 +68,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5329627453281844937, guid: 79681a4847cf1b14a9b89528f0cd90a2, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5460500962219294796, guid: 79681a4847cf1b14a9b89528f0cd90a2, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6527673661983331899, guid: 79681a4847cf1b14a9b89528f0cd90a2, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7307633581471320030, guid: 79681a4847cf1b14a9b89528f0cd90a2, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7609213571009932156, guid: 79681a4847cf1b14a9b89528f0cd90a2, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7717392835833031286, guid: 79681a4847cf1b14a9b89528f0cd90a2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -1057381715302211515, guid: 79681a4847cf1b14a9b89528f0cd90a2, type: 3}
