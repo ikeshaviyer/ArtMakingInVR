@@ -73,10 +73,6 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
-
-# Audio and Video files (too large for Git)
-*.mp3
-*.mp4
 Assets/Jaiden 3D assets/Disc_Arena/Objects/TDImportCache.meta
 Assets/Jaiden 3D assets/Disc_Arena/Objects/TDImportCache/Drone_Target.tdc.meta
 Assets/Jaiden 3D assets/Disc_Arena/Objects/TDImportCache.meta
