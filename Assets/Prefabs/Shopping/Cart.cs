@@ -12,8 +12,7 @@ namespace VRArtMaking
         [SerializeField] private bool showDebugInfo = true;
         
         private List<Grocery> groceriesInCart = new List<Grocery>();
-        private Dictionary<Grocery, RigidbodyConstraints> originalConstraints = new Dictionary<Grocery, RigidbodyConstraints>();
-        private Dictionary<Grocery, Vector3> originalScales = new Dictionary<Grocery, Vector3>();
+        private Transform targetTransform;
         
         public List<Grocery> GroceriesInCart => groceriesInCart;
         
@@ -28,6 +27,17 @@ namespace VRArtMaking
                 {
                     Debug.LogWarning("Cart: No ShoppingManager found in scene!");
                 }
+            }
+            
+            // Find Target tagged object
+            GameObject targetObject = GameObject.FindGameObjectWithTag("Target");
+            if (targetObject != null)
+            {
+                targetTransform = targetObject.transform;
+            }
+            else if (showDebugInfo)
+            {
+                Debug.LogWarning("Cart: No GameObject with 'Target' tag found in scene!");
             }
         }
         
@@ -55,22 +65,16 @@ namespace VRArtMaking
         {
             groceriesInCart.Add(grocery);
             
-            // Store original local scale before parenting
-            originalScales[grocery] = grocery.transform.localScale;
-            
-            // Parent grocery to cart
-            grocery.transform.SetParent(transform);
-            
-            // Halve the size
-            grocery.transform.localScale = grocery.transform.localScale / 2f;
+            // Parent grocery to Target tagged object (keep global transform)
+            if (targetTransform != null)
+            {
+                grocery.transform.SetParent(targetTransform);
+            }
             
             // Lock X and Z axes on rigidbody if it exists
             Rigidbody rb = grocery.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                // Store original constraints
-                originalConstraints[grocery] = rb.constraints;
-                
                 // Lock X and Z position (allow Y to move if needed)
                 rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
             }
@@ -93,26 +97,15 @@ namespace VRArtMaking
         {
             groceriesInCart.Remove(grocery);
             
-            // Double the size back
-            if (originalScales.ContainsKey(grocery))
-            {
-                grocery.transform.localScale = grocery.transform.localScale * 2f;
-                originalScales.Remove(grocery);
-            }
-            
-            // Unparent grocery from cart
+            // Unparent grocery from Target
             grocery.transform.SetParent(null);
             
-            // Restore original constraints on rigidbody if it exists
+            // Remove constraints on rigidbody if it exists
             Rigidbody rb = grocery.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                // Restore original constraints if we stored them
-                if (originalConstraints.ContainsKey(grocery))
-                {
-                    rb.constraints = originalConstraints[grocery];
-                    originalConstraints.Remove(grocery);
-                }
+                // Remove X and Z position constraints
+                rb.constraints = RigidbodyConstraints.None;
             }
             
             // Add back money, subtract life expectancy and hunger when item is removed from cart
