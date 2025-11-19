@@ -555,7 +555,7 @@ MonoBehaviour:
   _allowTeleport: 0
   _equalDistanceToBlockerOverride: 0
   _tieBreakerScore: 0
-  _surface: {fileID: 3188433624076597614}
+  _surface: {fileID: 0}
   _targetPoint: {fileID: 0}
   _faceTargetDirection: 0
   _eyeLevel: 0

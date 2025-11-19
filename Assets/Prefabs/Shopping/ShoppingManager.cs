@@ -26,16 +26,10 @@ namespace VRArtMaking
         [SerializeField] private bool isFat = false;
         [SerializeField] private bool isBroke = false;
         
-        [Header("Timer")]
-        [SerializeField] private float shoppingTimeLimit = 60f; // Time limit in seconds
-        
-        private float shoppingStartTime;
-        
         [Header("UI Text Displays")]
         [SerializeField] private TextMeshProUGUI moneyText;
         [SerializeField] private TextMeshProUGUI healthText;
         [SerializeField] private TextMeshProUGUI hungerText;
-        [SerializeField] private TextMeshProUGUI timerText;
         
         [Header("UI Sliders")]
         [SerializeField] private Slider moneySlider;
@@ -214,20 +208,13 @@ namespace VRArtMaking
         public void StartShopping()
         {
             isShopping = true;
-            shoppingStartTime = Time.time;
-            
-            // Initialize timer display
-            if (timerText != null && shoppingTimeLimit > 0)
-            {
-                UpdateTimerDisplay(shoppingTimeLimit);
-            }
             
             // Invoke Unity Event
             onShoppingStarted?.Invoke();
             
             if (showDebugInfo)
             {
-                Debug.Log($"Shopping started! Time limit: {shoppingTimeLimit} seconds");
+                Debug.Log("Shopping started!");
             }
         }
         
@@ -240,7 +227,30 @@ namespace VRArtMaking
             
             if (hungerIsFull && moneyIsNonNegative && healthIsNonNegative)
             {
-                ForceEndShopping("All conditions met: Hunger is full and all values are non-negative.");
+                isShopping = false;
+                
+                // Set end game state based on life expectancy
+                if (currentHealth < 50)
+                {
+                    isFat = true;
+                    isBroke = false;
+                    OnFat?.Invoke();
+                }
+                else
+                {
+                    isFat = false;
+                    isBroke = true;
+                    OnBroke?.Invoke();
+                }
+                
+                // Invoke both C# event and Unity Event
+                OnShoppingEnded?.Invoke();
+                onShoppingEnded?.Invoke();
+                
+                if (showDebugInfo)
+                {
+                    Debug.Log("Shopping ended! All conditions met: Hunger is full and all values are non-negative.");
+                }
             }
             else
             {
@@ -253,36 +263,6 @@ namespace VRArtMaking
                     
                     Debug.LogWarning($"Cannot end shopping yet. Issues: {issues}");
                 }
-            }
-        }
-        
-        private void ForceEndShopping(string reason)
-        {
-            if (!isShopping) return; // Already ended
-            
-            isShopping = false;
-            
-            // Set end game state based on life expectancy
-            if (currentHealth < 50)
-            {
-                isFat = true;
-                isBroke = false;
-                OnFat?.Invoke();
-            }
-            else
-            {
-                isFat = false;
-                isBroke = true;
-                OnBroke?.Invoke();
-            }
-            
-            // Invoke both C# event and Unity Event
-            OnShoppingEnded?.Invoke();
-            onShoppingEnded?.Invoke();
-            
-            if (showDebugInfo)
-            {
-                Debug.Log($"Shopping ended! {reason}");
             }
         }
         
@@ -374,41 +354,6 @@ namespace VRArtMaking
             OnMoneyChanged += (value) => UpdateMoneyDisplay();
             OnHealthChanged += (value) => UpdateHealthDisplay();
             OnHungerChanged += (value) => UpdateHungerDisplay();
-        }
-        
-        private void Update()
-        {
-            // Check if shopping is active and time limit has been reached
-            if (isShopping && shoppingTimeLimit > 0)
-            {
-                float elapsedTime = Time.time - shoppingStartTime;
-                float remainingTime = shoppingTimeLimit - elapsedTime;
-                
-                // Update timer display
-                UpdateTimerDisplay(remainingTime);
-                
-                if (elapsedTime >= shoppingTimeLimit)
-                {
-                    ForceEndShopping($"Time limit reached ({shoppingTimeLimit} seconds)");
-                }
-            }
-        }
-        
-        private void UpdateTimerDisplay(float remainingTime)
-        {
-            if (timerText != null)
-            {
-                if (remainingTime <= 0)
-                {
-                    timerText.text = "00:00";
-                }
-                else
-                {
-                    int minutes = Mathf.FloorToInt(remainingTime / 60f);
-                    int seconds = Mathf.FloorToInt(remainingTime % 60f);
-                    timerText.text = $"{minutes:00}:{seconds:00}";
-                }
-            }
         }
         
         private void OnDisable()
