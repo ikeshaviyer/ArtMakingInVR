@@ -65,10 +65,10 @@ namespace VRArtMaking
         {
             groceriesInCart.Add(grocery);
             
-            // Parent grocery to Target tagged object
+            // Parent grocery to Target tagged object (keep global transform)
             if (targetTransform != null)
             {
-                grocery.transform.SetParent(targetTransform);
+                grocery.transform.SetParent(targetTransform, true);
             }
             
             // Force scale to 2.5
