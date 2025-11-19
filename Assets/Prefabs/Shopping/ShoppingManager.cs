@@ -208,10 +208,6 @@ namespace VRArtMaking
         public void StartShopping()
         {
             isShopping = true;
-<<<<<<< HEAD
-=======
-            shoppingStartTime = Time.time;
->>>>>>> parent of 883311d (Grocery Timer added)
             
             // Invoke Unity Event
             onShoppingStarted?.Invoke();
@@ -360,22 +356,6 @@ namespace VRArtMaking
             OnHungerChanged += (value) => UpdateHungerDisplay();
         }
         
-<<<<<<< HEAD
-=======
-        private void Update()
-        {
-            // Check if shopping is active and time limit has been reached
-            if (isShopping && shoppingTimeLimit > 0)
-            {
-                float elapsedTime = Time.time - shoppingStartTime;
-                if (elapsedTime >= shoppingTimeLimit)
-                {
-                    ForceEndShopping($"Time limit reached ({shoppingTimeLimit} seconds)");
-                }
-            }
-        }
-        
->>>>>>> parent of 883311d (Grocery Timer added)
         private void OnDisable()
         {
             // Unsubscribe from events
