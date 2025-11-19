@@ -10,12 +10,8 @@ public class OutlineHandler : MonoBehaviour
     
     private void Awake()
     {
-        // Get or add Outline component
-        outline = GetComponent<Outline>();
-        if (outline == null)
-        {
-            outline = gameObject.AddComponent<Outline>();
-        }
+        // Get or add Outline component (searches self and children)
+        outline = GetComponentInChildren<Outline>();
         
         // Configure outline
         outline.OutlineColor = outlineColor;

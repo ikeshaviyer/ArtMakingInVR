@@ -153,11 +153,41 @@ namespace VRArtMaking
             {
                 gameCompleted = true;
                 
+                // Mute all TVs
+                MuteAllTVs();
+                
                 // Invoke both C# event and Unity Event
                 OnGameCompleted?.Invoke();
                 onGameCompleted?.Invoke();
                 
                 if (showDebugInfo) Debug.Log("All TVs matched! Game completed!");
+            }
+        }
+        
+        private void MuteAllTVs()
+        {
+            foreach (var tv in allTVs)
+            {
+                if (tv == null) continue;
+                
+                // Get AudioSource component
+                var audioSource = tv.GetComponent<AudioSource>();
+                if (audioSource != null)
+                {
+                    audioSource.volume = 0f;
+                }
+                
+                // Get VideoPlayer component and mute its audio
+                var videoPlayer = tv.GetComponent<UnityEngine.Video.VideoPlayer>();
+                if (videoPlayer != null)
+                {
+                    videoPlayer.SetDirectAudioVolume(0, 0f);
+                }
+            }
+            
+            if (showDebugInfo)
+            {
+                Debug.Log("All TVs muted");
             }
         }
         

@@ -71,13 +71,39 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ad3a5ab1dafb85c4c9a06a73eac966e1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6835751594716599739}
   m_SourcePrefab: {fileID: 100100000, guid: ad3a5ab1dafb85c4c9a06a73eac966e1, type: 3}
 --- !u!4 &5930865639179785201 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ad3a5ab1dafb85c4c9a06a73eac966e1, type: 3}
   m_PrefabInstance: {fileID: 6180086155021448218}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6414667713969506635 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ad3a5ab1dafb85c4c9a06a73eac966e1, type: 3}
+  m_PrefabInstance: {fileID: 6180086155021448218}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6835751594716599739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6414667713969506635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 3
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1001 &9072870050465345554
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -86,6 +112,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 201002222094886543, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
+      propertyPath: m_text
+      value: -18
+      objectReference: {fileID: 0}
     - target: {fileID: 661474086621172458, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
       propertyPath: m_Name
       value: Beer sixpack Variant
@@ -97,6 +127,10 @@ PrefabInstance:
     - target: {fileID: 1318596191768792664, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
       propertyPath: m_text
       value: Beer sixpack
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833407454247279986, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
+      propertyPath: m_text
+      value: +18
       objectReference: {fileID: 0}
     - target: {fileID: 2068439177293378216, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
       propertyPath: price
@@ -161,6 +195,10 @@ PrefabInstance:
     - target: {fileID: 5574401170671299404, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6032895597808435175, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
+      propertyPath: m_text
+      value: $18.00
       objectReference: {fileID: 0}
     - target: {fileID: 6141146246821575988, guid: fa383dcb8f3908e418a827bfef131378, type: 3}
       propertyPath: m_text

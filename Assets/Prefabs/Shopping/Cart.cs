@@ -12,6 +12,8 @@ namespace VRArtMaking
         [SerializeField] private bool showDebugInfo = true;
         
         private List<Grocery> groceriesInCart = new List<Grocery>();
+        private Dictionary<Grocery, RigidbodyConstraints> originalConstraints = new Dictionary<Grocery, RigidbodyConstraints>();
+        private Dictionary<Grocery, Vector3> originalScales = new Dictionary<Grocery, Vector3>();
         
         public List<Grocery> GroceriesInCart => groceriesInCart;
         
@@ -53,6 +55,26 @@ namespace VRArtMaking
         {
             groceriesInCart.Add(grocery);
             
+            // Store original local scale before parenting
+            originalScales[grocery] = grocery.transform.localScale;
+            
+            // Parent grocery to cart
+            grocery.transform.SetParent(transform);
+            
+            // Halve the size
+            grocery.transform.localScale = grocery.transform.localScale / 2f;
+            
+            // Lock X and Z axes on rigidbody if it exists
+            Rigidbody rb = grocery.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                // Store original constraints
+                originalConstraints[grocery] = rb.constraints;
+                
+                // Lock X and Z position (allow Y to move if needed)
+                rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+            }
+            
             // Subtract money, add life expectancy and hunger when item is added to cart
             if (shoppingManager != null)
             {
@@ -70,6 +92,28 @@ namespace VRArtMaking
         private void RemoveGroceryFromCart(Grocery grocery)
         {
             groceriesInCart.Remove(grocery);
+            
+            // Double the size back
+            if (originalScales.ContainsKey(grocery))
+            {
+                grocery.transform.localScale = grocery.transform.localScale * 2f;
+                originalScales.Remove(grocery);
+            }
+            
+            // Unparent grocery from cart
+            grocery.transform.SetParent(null);
+            
+            // Restore original constraints on rigidbody if it exists
+            Rigidbody rb = grocery.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                // Restore original constraints if we stored them
+                if (originalConstraints.ContainsKey(grocery))
+                {
+                    rb.constraints = originalConstraints[grocery];
+                    originalConstraints.Remove(grocery);
+                }
+            }
             
             // Add back money, subtract life expectancy and hunger when item is removed from cart
             if (shoppingManager != null)

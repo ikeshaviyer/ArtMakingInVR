@@ -19,4 +19,4 @@ MonoBehaviour:
   useSeparateAudio: 0
   channelAudio: {fileID: 0}
   audioVolume: 1
-  isCorrectChannel: 1
+  isCorrectChannel: 0

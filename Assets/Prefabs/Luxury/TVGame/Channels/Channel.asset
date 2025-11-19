@@ -15,8 +15,8 @@ MonoBehaviour:
   channelNumber: 0
   channelName: Channel 0
   description: 
-  videoClip: {fileID: 32900000, guid: 73254f6f122ed434e93e9abec4ce788a, type: 3}
+  videoClip: {fileID: 32900000, guid: b4f22a9de7afa014b8cc1ecc67286ba8, type: 3}
   useSeparateAudio: 0
   channelAudio: {fileID: 0}
   audioVolume: 1
-  isCorrectChannel: 0
+  isCorrectChannel: 1

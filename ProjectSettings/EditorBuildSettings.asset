@@ -26,6 +26,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Luxury.unity
     guid: 34ed63c6813cc714ab7eb96765378590
+  - enabled: 1
+    path: Assets/Scenes/Choice.unity
+    guid: 71f87698c30655847aaa4b560f83675c
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: ffbf99488d71dec4395a6679ba105e12
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 99c8b64c88464b44994893b283d9e459, type: 2}
     com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: fb334d9b57fe5184e8361808ad659b91, type: 2}
