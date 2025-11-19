@@ -71,6 +71,9 @@ namespace VRArtMaking
                 grocery.transform.SetParent(targetTransform);
             }
             
+            // Force scale to 2.5
+            grocery.transform.localScale = Vector3.one * 2.5f;
+            
             // Lock X and Z axes on rigidbody if it exists
             Rigidbody rb = grocery.GetComponent<Rigidbody>();
             if (rb != null)
@@ -99,6 +102,9 @@ namespace VRArtMaking
             
             // Unparent grocery from Target
             grocery.transform.SetParent(null);
+            
+            // Keep scale at 2.5
+            grocery.transform.localScale = Vector3.one * 2.5f;
             
             // Remove constraints on rigidbody if it exists
             Rigidbody rb = grocery.GetComponent<Rigidbody>();
