@@ -26,6 +26,11 @@ namespace VRArtMaking
         [SerializeField] private bool isFat = false;
         [SerializeField] private bool isBroke = false;
         
+        [Header("Timer")]
+        [SerializeField] private float shoppingTimeLimit = 60f; // Time limit in seconds
+        
+        private float shoppingStartTime;
+        
         [Header("UI Text Displays")]
         [SerializeField] private TextMeshProUGUI moneyText;
         [SerializeField] private TextMeshProUGUI healthText;
@@ -208,13 +213,14 @@ namespace VRArtMaking
         public void StartShopping()
         {
             isShopping = true;
+            shoppingStartTime = Time.time;
             
             // Invoke Unity Event
             onShoppingStarted?.Invoke();
             
             if (showDebugInfo)
             {
-                Debug.Log("Shopping started!");
+                Debug.Log($"Shopping started! Time limit: {shoppingTimeLimit} seconds");
             }
         }
         
@@ -227,30 +233,7 @@ namespace VRArtMaking
             
             if (hungerIsFull && moneyIsNonNegative && healthIsNonNegative)
             {
-                isShopping = false;
-                
-                // Set end game state based on life expectancy
-                if (currentHealth < 50)
-                {
-                    isFat = true;
-                    isBroke = false;
-                    OnFat?.Invoke();
-                }
-                else
-                {
-                    isFat = false;
-                    isBroke = true;
-                    OnBroke?.Invoke();
-                }
-                
-                // Invoke both C# event and Unity Event
-                OnShoppingEnded?.Invoke();
-                onShoppingEnded?.Invoke();
-                
-                if (showDebugInfo)
-                {
-                    Debug.Log("Shopping ended! All conditions met: Hunger is full and all values are non-negative.");
-                }
+                ForceEndShopping("All conditions met: Hunger is full and all values are non-negative.");
             }
             else
             {
@@ -263,6 +246,36 @@ namespace VRArtMaking
                     
                     Debug.LogWarning($"Cannot end shopping yet. Issues: {issues}");
                 }
+            }
+        }
+        
+        private void ForceEndShopping(string reason)
+        {
+            if (!isShopping) return; // Already ended
+            
+            isShopping = false;
+            
+            // Set end game state based on life expectancy
+            if (currentHealth < 50)
+            {
+                isFat = true;
+                isBroke = false;
+                OnFat?.Invoke();
+            }
+            else
+            {
+                isFat = false;
+                isBroke = true;
+                OnBroke?.Invoke();
+            }
+            
+            // Invoke both C# event and Unity Event
+            OnShoppingEnded?.Invoke();
+            onShoppingEnded?.Invoke();
+            
+            if (showDebugInfo)
+            {
+                Debug.Log($"Shopping ended! {reason}");
             }
         }
         
@@ -354,6 +367,19 @@ namespace VRArtMaking
             OnMoneyChanged += (value) => UpdateMoneyDisplay();
             OnHealthChanged += (value) => UpdateHealthDisplay();
             OnHungerChanged += (value) => UpdateHungerDisplay();
+        }
+        
+        private void Update()
+        {
+            // Check if shopping is active and time limit has been reached
+            if (isShopping && shoppingTimeLimit > 0)
+            {
+                float elapsedTime = Time.time - shoppingStartTime;
+                if (elapsedTime >= shoppingTimeLimit)
+                {
+                    ForceEndShopping($"Time limit reached ({shoppingTimeLimit} seconds)");
+                }
+            }
         }
         
         private void OnDisable()

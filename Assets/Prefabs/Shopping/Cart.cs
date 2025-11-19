@@ -12,6 +12,7 @@ namespace VRArtMaking
         [SerializeField] private bool showDebugInfo = true;
         
         private List<Grocery> groceriesInCart = new List<Grocery>();
+        private Transform targetTransform;
         
         public List<Grocery> GroceriesInCart => groceriesInCart;
         
@@ -26,6 +27,17 @@ namespace VRArtMaking
                 {
                     Debug.LogWarning("Cart: No ShoppingManager found in scene!");
                 }
+            }
+            
+            // Find Target tagged object
+            GameObject targetObject = GameObject.FindGameObjectWithTag("Target");
+            if (targetObject != null)
+            {
+                targetTransform = targetObject.transform;
+            }
+            else if (showDebugInfo)
+            {
+                Debug.LogWarning("Cart: No GameObject with 'Target' tag found in scene!");
             }
         }
         
@@ -53,8 +65,11 @@ namespace VRArtMaking
         {
             groceriesInCart.Add(grocery);
             
-            // Parent grocery to root
-            grocery.transform.SetParent(null);
+            // Parent grocery to Target tagged object
+            if (targetTransform != null)
+            {
+                grocery.transform.SetParent(targetTransform);
+            }
             
             // Lock X and Z axes on rigidbody if it exists
             Rigidbody rb = grocery.GetComponent<Rigidbody>();
@@ -82,7 +97,7 @@ namespace VRArtMaking
         {
             groceriesInCart.Remove(grocery);
             
-            // Ensure grocery is at root
+            // Unparent grocery from Target
             grocery.transform.SetParent(null);
             
             // Remove constraints on rigidbody if it exists
