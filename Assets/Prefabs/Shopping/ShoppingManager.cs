@@ -35,6 +35,7 @@ namespace VRArtMaking
         [SerializeField] private TextMeshProUGUI moneyText;
         [SerializeField] private TextMeshProUGUI healthText;
         [SerializeField] private TextMeshProUGUI hungerText;
+        [SerializeField] private TextMeshProUGUI timerText;
         
         [Header("UI Sliders")]
         [SerializeField] private Slider moneySlider;
@@ -215,6 +216,12 @@ namespace VRArtMaking
             isShopping = true;
             shoppingStartTime = Time.time;
             
+            // Initialize timer display
+            if (timerText != null && shoppingTimeLimit > 0)
+            {
+                UpdateTimerDisplay(shoppingTimeLimit);
+            }
+            
             // Invoke Unity Event
             onShoppingStarted?.Invoke();
             
@@ -375,9 +382,31 @@ namespace VRArtMaking
             if (isShopping && shoppingTimeLimit > 0)
             {
                 float elapsedTime = Time.time - shoppingStartTime;
+                float remainingTime = shoppingTimeLimit - elapsedTime;
+                
+                // Update timer display
+                UpdateTimerDisplay(remainingTime);
+                
                 if (elapsedTime >= shoppingTimeLimit)
                 {
                     ForceEndShopping($"Time limit reached ({shoppingTimeLimit} seconds)");
+                }
+            }
+        }
+        
+        private void UpdateTimerDisplay(float remainingTime)
+        {
+            if (timerText != null)
+            {
+                if (remainingTime <= 0)
+                {
+                    timerText.text = "00:00";
+                }
+                else
+                {
+                    int minutes = Mathf.FloorToInt(remainingTime / 60f);
+                    int seconds = Mathf.FloorToInt(remainingTime % 60f);
+                    timerText.text = $"{minutes:00}:{seconds:00}";
                 }
             }
         }
