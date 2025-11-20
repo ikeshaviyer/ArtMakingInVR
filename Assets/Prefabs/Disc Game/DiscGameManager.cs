@@ -160,12 +160,12 @@ namespace VRArtMaking
             {
                 int minutes = Mathf.FloorToInt(currentTime / 60f);
                 int seconds = Mathf.FloorToInt(currentTime % 60f);
-                timerText.text = $"Time: {minutes:00}:{seconds:00}";
+                timerText.text = $"{minutes:00}:{seconds:00}";
             }
             
             if (scoreText != null)
             {
-                scoreText.text = $"Score: {currentScore}";
+                scoreText.text = $"{currentScore}";
             }
         }
         
