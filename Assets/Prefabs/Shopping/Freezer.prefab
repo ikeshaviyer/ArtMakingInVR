@@ -264,9 +264,10 @@ MonoBehaviour:
   - {fileID: 2027731387483813835, guid: d515cf8a9f852af458af3f9d54f3010a, type: 3}
   - {fileID: 5815896119264846143, guid: c9dabf5b6e956af4fad6c91b20302a5d, type: 3}
   randomSpawn: 1
-  spawnOnStart: 1
+  spawnOnStart: 0
+  spawnOnShoppingGameStart: 1
   clearBeforeRespawn: 1
-  showDebugInfo: 1
+  showDebugInfo: 0
 --- !u!1 &6598151237356952797
 GameObject:
   m_ObjectHideFlags: 0

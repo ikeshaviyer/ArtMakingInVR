@@ -20,6 +20,9 @@ namespace VRArtMaking
         [SerializeField, Tooltip("If true, spawns items on Start")]
         private bool spawnOnStart = true;
         
+        [SerializeField, Tooltip("If true, spawns items when shopping game starts")]
+        private bool spawnOnShoppingGameStart = false;
+        
         [SerializeField, Tooltip("If true, clears existing items before respawning")]
         private bool clearBeforeRespawn = true;
         
@@ -27,6 +30,7 @@ namespace VRArtMaking
         [SerializeField] private bool showDebugInfo = true;
         
         private List<GameObject> spawnedItems = new List<GameObject>();
+        private ShoppingManager shoppingManager;
         
         private void Awake()
         {
@@ -35,6 +39,35 @@ namespace VRArtMaking
             
             if (groceryItemPrefabs == null)
                 groceryItemPrefabs = new List<GameObject>();
+            
+            // Find ShoppingManager in the scene
+            shoppingManager = FindObjectOfType<ShoppingManager>();
+            if (shoppingManager == null)
+            {
+                if (showDebugInfo)
+                {
+                    Debug.LogWarning("GrocerySpawnController: ShoppingManager not found in scene!");
+                }
+            }
+            else if (spawnOnShoppingGameStart)
+            {
+                // Subscribe to shopping game start event
+                shoppingManager.OnShoppingStarted += OnShoppingGameStart;
+                
+                if (showDebugInfo)
+                {
+                    Debug.Log("GrocerySpawnController: Subscribed to ShoppingManager's OnShoppingStarted event");
+                }
+            }
+        }
+        
+        private void OnDestroy()
+        {
+            // Unsubscribe from the event when this object is destroyed
+            if (shoppingManager != null)
+            {
+                shoppingManager.OnShoppingStarted -= OnShoppingGameStart;
+            }
         }
         
         private void Start()
@@ -160,6 +193,14 @@ namespace VRArtMaking
         public List<GameObject> GetSpawnedItems()
         {
             return new List<GameObject>(spawnedItems);
+        }
+        
+        public void OnShoppingGameStart()
+        {
+            if (spawnOnShoppingGameStart)
+            {
+                SpawnAllItems();
+            }
         }
         
         private void OnValidate()

@@ -58,6 +58,7 @@ namespace VRArtMaking
         public event Action OnOutOfMoney;
         public event Action OnHealthDepleted;
         public event Action OnHungerFull;
+        public event Action OnShoppingStarted;
         public event Action OnShoppingEnded;
         
         public float Money => currentMoney;
@@ -224,7 +225,8 @@ namespace VRArtMaking
             // Update time limit display
             UpdateTimeLimitDisplay();
             
-            // Invoke Unity Event
+            // Invoke both C# event and Unity Event
+            OnShoppingStarted?.Invoke();
             onShoppingStarted?.Invoke();
             
             if (showDebugInfo)

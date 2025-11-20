@@ -268,7 +268,8 @@ MonoBehaviour:
   - {fileID: 3688294311908688021, guid: 42fa0ba57b978d646a93b1b9876f547c, type: 3}
   - {fileID: 8297905229507181255, guid: 59cf361534d90124a9bb3f9915e1a2ec, type: 3}
   randomSpawn: 1
-  spawnOnStart: 1
+  spawnOnStart: 0
+  spawnOnShoppingGameStart: 1
   clearBeforeRespawn: 1
   showDebugInfo: 0
 --- !u!1001 &7522734924434848541
