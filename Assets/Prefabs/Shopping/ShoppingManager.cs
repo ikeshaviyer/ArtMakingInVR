@@ -23,8 +23,9 @@ namespace VRArtMaking
         
         [Header("Game State")]
         [SerializeField] private bool isShopping = false;
-        [SerializeField] private bool isFat = false;
+        [SerializeField] private bool isLowHealth = false;
         [SerializeField] private bool isBroke = false;
+        [SerializeField] private bool isHungry = false;
         
         [Header("Timer")]
         [SerializeField] private float shoppingTimeLimit = 60f; // Time limit in seconds
@@ -45,6 +46,9 @@ namespace VRArtMaking
         [Header("Unity Events")]
         [SerializeField] private UnityEvent onShoppingStarted;
         [SerializeField] private UnityEvent onShoppingEnded;
+        [SerializeField] private UnityEvent onLowHealth;
+        [SerializeField] private UnityEvent onBroke;
+        [SerializeField] private UnityEvent onHungry;
         
         [Header("Debug")]
         [SerializeField] private bool showDebugInfo = true;
@@ -57,8 +61,6 @@ namespace VRArtMaking
         public event Action OnHealthDepleted;
         public event Action OnHungerFull;
         public event Action OnShoppingEnded;
-        public event Action OnFat;
-        public event Action OnBroke;
         
         public float Money => currentMoney;
         public float Health => currentHealth;
@@ -74,6 +76,11 @@ namespace VRArtMaking
             currentMoney = startingMoney;
             currentHealth = startingHealth;
             currentHunger = startingHunger;
+            
+            // Initialize bools to false (will be determined at game end)
+            isLowHealth = false;
+            isBroke = false;
+            isHungry = false;
             
             // Update UI displays
             UpdateMoneyDisplay();
@@ -232,7 +239,7 @@ namespace VRArtMaking
         public void EndShopping()
         {
             // Check if all conditions are met to end shopping
-            bool hungerIsFull = currentHunger >= maxHunger;
+            bool hungerIsFull = currentHunger >= maxHunger / 2;
             bool moneyIsNonNegative = currentMoney >= 0;
             bool healthIsNonNegative = currentHealth >= 0;
             
@@ -245,7 +252,7 @@ namespace VRArtMaking
                 if (showDebugInfo)
                 {
                     string issues = "";
-                    if (!hungerIsFull) issues += $"Hunger not full ({currentHunger}/{maxHunger})";
+                    if (!hungerIsFull) issues += $"Hunger not full ({currentHunger}/{maxHunger / 2})";
                     if (!moneyIsNonNegative) issues += (issues.Length > 0 ? ", " : "") + $"Money is negative (${currentMoney:F2})";
                     if (!healthIsNonNegative) issues += (issues.Length > 0 ? ", " : "") + $"Health is negative ({currentHealth:F1})";
                     
@@ -263,18 +270,23 @@ namespace VRArtMaking
             // Update time limit display
             UpdateTimeLimitDisplay();
             
-            // Set end game state based on life expectancy
-            if (currentHealth < 50)
+            // Determine all three bools based on final state
+            isLowHealth = currentHealth < startingHealth / 2;
+            isBroke = currentMoney < startingMoney / 2;
+            isHungry = currentHunger < maxHunger;
+            
+            // Invoke events based on final state
+            if (isLowHealth)
             {
-                isFat = true;
-                isBroke = false;
-                OnFat?.Invoke();
+                onLowHealth?.Invoke();
             }
-            else
+            if (isBroke)
             {
-                isFat = false;
-                isBroke = true;
-                OnBroke?.Invoke();
+                onBroke?.Invoke();
+            }
+            if (isHungry)
+            {
+                onHungry?.Invoke();
             }
             
             // Invoke both C# event and Unity Event
@@ -292,6 +304,11 @@ namespace VRArtMaking
             currentMoney = startingMoney;
             currentHealth = startingHealth;
             currentHunger = startingHunger;
+            
+            // Reset bools to false (will be determined at game end)
+            isLowHealth = false;
+            isBroke = false;
+            isHungry = false;
             
             OnMoneyChanged?.Invoke(currentMoney);
             OnHealthChanged?.Invoke(currentHealth);
