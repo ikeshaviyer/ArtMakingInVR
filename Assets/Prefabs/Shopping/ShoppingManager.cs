@@ -25,7 +25,6 @@ namespace VRArtMaking
         [SerializeField] private bool isShopping = false;
         [SerializeField] private bool isLowHealth = false;
         [SerializeField] private bool isBroke = false;
-        [SerializeField] private bool isHungry = false;
         
         [Header("Timer")]
         [SerializeField] private float shoppingTimeLimit = 60f; // Time limit in seconds
@@ -48,7 +47,6 @@ namespace VRArtMaking
         [SerializeField] private UnityEvent onShoppingEnded;
         [SerializeField] private UnityEvent onLowHealth;
         [SerializeField] private UnityEvent onBroke;
-        [SerializeField] private UnityEvent onHungry;
         
         [Header("Debug")]
         [SerializeField] private bool showDebugInfo = true;
@@ -80,7 +78,6 @@ namespace VRArtMaking
             // Initialize bools to false (will be determined at game end)
             isLowHealth = false;
             isBroke = false;
-            isHungry = false;
             
             // Update UI displays
             UpdateMoneyDisplay();
@@ -270,23 +267,29 @@ namespace VRArtMaking
             // Update time limit display
             UpdateTimeLimitDisplay();
             
-            // Determine all three bools based on final state
-            isLowHealth = currentHealth < startingHealth / 2;
-            isBroke = currentMoney < startingMoney / 2;
-            isHungry = currentHunger < maxHunger;
+            // Calculate relative loss percentages (how much was lost relative to starting value)
+            float moneyLossPercent = startingMoney > 0 ? (startingMoney - currentMoney) / startingMoney : 0f;
+            float healthLossPercent = startingHealth > 0 ? (startingHealth - currentHealth) / startingHealth : 0f;
             
-            // Invoke events based on final state
-            if (isLowHealth)
+            // Determine which has the greater relative loss (mutually exclusive)
+            if (moneyLossPercent > healthLossPercent)
             {
-                onLowHealth?.Invoke();
-            }
-            if (isBroke)
-            {
+                isBroke = true;
+                isLowHealth = false;
                 onBroke?.Invoke();
             }
-            if (isHungry)
+            else if (healthLossPercent > moneyLossPercent)
             {
-                onHungry?.Invoke();
+                isLowHealth = true;
+                isBroke = false;
+                onLowHealth?.Invoke();
+            }
+            else
+            {
+                // If equal, default to broke
+                isBroke = true;
+                isLowHealth = false;
+                onBroke?.Invoke();
             }
             
             // Invoke both C# event and Unity Event
@@ -308,7 +311,6 @@ namespace VRArtMaking
             // Reset bools to false (will be determined at game end)
             isLowHealth = false;
             isBroke = false;
-            isHungry = false;
             
             OnMoneyChanged?.Invoke(currentMoney);
             OnHealthChanged?.Invoke(currentHealth);
