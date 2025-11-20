@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5accf4c923f6de49ab3965c17c751aa, type: 3}
+  m_Name: Channel 10
+  m_EditorClassIdentifier: 
+  channelNumber: 10
+  channelName: Channel 0
+  description: 
+  videoClip: {fileID: 32900000, guid: 0ff6cdee5e5b97e4cb2013d362eb0078, type: 3}
+  useSeparateAudio: 0
+  channelAudio: {fileID: 0}
+  audioVolume: 1
+  isCorrectChannel: 0
