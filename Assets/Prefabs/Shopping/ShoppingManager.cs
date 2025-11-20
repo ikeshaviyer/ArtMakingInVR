@@ -35,6 +35,7 @@ namespace VRArtMaking
         [SerializeField] private TextMeshProUGUI moneyText;
         [SerializeField] private TextMeshProUGUI healthText;
         [SerializeField] private TextMeshProUGUI hungerText;
+        [SerializeField] private TextMeshProUGUI timeLimitText;
         
         [Header("UI Sliders")]
         [SerializeField] private Slider moneySlider;
@@ -78,6 +79,7 @@ namespace VRArtMaking
             UpdateMoneyDisplay();
             UpdateHealthDisplay();
             UpdateHungerDisplay();
+            UpdateTimeLimitDisplay();
             
             // Update slider values
             UpdateMoneySlider();
@@ -215,6 +217,9 @@ namespace VRArtMaking
             isShopping = true;
             shoppingStartTime = Time.time;
             
+            // Update time limit display
+            UpdateTimeLimitDisplay();
+            
             // Invoke Unity Event
             onShoppingStarted?.Invoke();
             
@@ -254,6 +259,9 @@ namespace VRArtMaking
             if (!isShopping) return; // Already ended
             
             isShopping = false;
+            
+            // Update time limit display
+            UpdateTimeLimitDisplay();
             
             // Set end game state based on life expectancy
             if (currentHealth < 50)
@@ -329,6 +337,23 @@ namespace VRArtMaking
             }
         }
         
+        private void UpdateTimeLimitDisplay()
+        {
+            if (timeLimitText != null)
+            {
+                if (isShopping && shoppingTimeLimit > 0)
+                {
+                    float elapsedTime = Time.time - shoppingStartTime;
+                    float remainingTime = Mathf.Max(0f, shoppingTimeLimit - elapsedTime);
+                    timeLimitText.text = $"Time: {remainingTime:F1}s";
+                }
+                else
+                {
+                    timeLimitText.text = $"Time Limit: {shoppingTimeLimit:F1}s";
+                }
+            }
+        }
+        
         private void UpdateMoneySlider()
         {
             if (moneySlider != null)
@@ -375,6 +400,10 @@ namespace VRArtMaking
             if (isShopping && shoppingTimeLimit > 0)
             {
                 float elapsedTime = Time.time - shoppingStartTime;
+                
+                // Update time limit display every frame
+                UpdateTimeLimitDisplay();
+                
                 if (elapsedTime >= shoppingTimeLimit)
                 {
                     ForceEndShopping($"Time limit reached ({shoppingTimeLimit} seconds)");
