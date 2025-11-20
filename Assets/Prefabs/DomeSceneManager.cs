@@ -8,11 +8,49 @@ public class DomeSceneManager : MonoBehaviour
     [SerializeField] private float loadDelay = 3f; // Optional short delay before async load
     [SerializeField] private CanvasGroup blackoutPanel; // CanvasGroup that covers the screen for blackout effect
     [SerializeField] private float fadeDuration = 0.5f; // Duration of fade to black
+    [SerializeField] private float restartHoldDuration = 3f; // Duration to hold Home button to restart
+    
+    private float homeButtonHoldStartTime = -1f; // Time when Home button started being held (-1 means not held)
 
     private void Start()
     {
         // Fade to clear when scene loads
         StartCoroutine(FadeToClear());
+    }
+
+    private void Update()
+    {
+        // Check if Home/Meta button is currently pressed
+        // Available OVRInput.Button options:
+        // - One (A button on right controller)
+        // - Two (B button on right controller)  
+        // - Three (X button on left controller)
+        // - Four (Y button on left controller)
+        // - Start (Menu button - may work better than Home on Quest)
+        // - PrimaryThumbstick / SecondaryThumbstick (thumbstick press)
+        // - PrimaryIndexTrigger / SecondaryIndexTrigger
+        // - PrimaryHandTrigger / SecondaryHandTrigger (grip buttons)
+        // Note: OVRInput.Button.Home exists but may not work on Quest devices
+        // as the Home/Meta button is system-reserved. Consider using Button.Start instead.
+        if (OVRInput.Get(OVRInput.Button.Start))
+        {
+            // If button wasn't being held before, record the start time
+            if (homeButtonHoldStartTime < 0f)
+            {
+                homeButtonHoldStartTime = Time.time;
+            }
+            // Check if button has been held for the required duration
+            else if (Time.time - homeButtonHoldStartTime >= restartHoldDuration)
+            {
+                RestartGame();
+                homeButtonHoldStartTime = -1f; // Reset to prevent multiple restarts
+            }
+        }
+        else
+        {
+            // Button is not pressed, reset the hold timer
+            homeButtonHoldStartTime = -1f;
+        }
     }
 
     // Load a scene asynchronously by name (callable from UnityEvent)
@@ -25,6 +63,12 @@ public class DomeSceneManager : MonoBehaviour
     public void LoadSceneByNameNoDelay(string sceneName)
     {
         StartCoroutine(LoadSceneAsyncNoDelayCoroutine(sceneName));
+    }
+
+    // Restart the game by loading Vr Elevator scene with no delay
+    public void RestartGame()
+    {
+        LoadSceneByNameNoDelay("Vr Elevator");
     }
 
     private IEnumerator LoadSceneAsyncCoroutine(string sceneName)
